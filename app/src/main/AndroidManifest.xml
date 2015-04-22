@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.edoardo.intrablet" >
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".DownloadActivity"
+            android:label="@string/title_activity_download"
+            android:parentActivityName=".MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.edoardo.intrablet.MainActivity" />
+        </activity>
+        <activity
+            android:name=".UploadActivity"
+            android:label="@string/title_activity_upload"
+            android:parentActivityName=".MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.edoardo.intrablet.MainActivity" />
+        </activity>
+        <activity
+            android:name=".WorkActivity"
+            android:label="@string/title_activity_work"
+            android:parentActivityName=".MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.edoardo.intrablet.MainActivity" />
+        </activity>
+        <activity
+            android:name=".OpenInterventActivity"
+            android:label="@string/title_activity_open_intervent"
+            android:parentActivityName=".WorkActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.edoardo.intrablet.WorkActivity" />
+        </activity>
+        <activity
+            android:name=".CloseInterventActivity"
+            android:label="@string/title_activity_close_intervent"
+            android:parentActivityName=".WorkActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.edoardo.intrablet.WorkActivity" />
+        </activity>
+        <activity
+            android:name=".NewInterventActivity"
+            android:label="@string/title_activity_new_intervent"
+            android:parentActivityName=".WorkActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.edoardo.intrablet.WorkActivity" />
+        </activity>
+        <activity
+            android:name=".NewTransfActivity"
+            android:label="@string/title_activity_new_transf"
+            android:parentActivityName=".WorkActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.edoardo.intrablet.WorkActivity" />
+        </activity>
+    </application>
+
+</manifest>
