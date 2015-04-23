@@ -5,41 +5,47 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="com.example.edoardo.intrablet.WorkActivity"
-    android:backgroundTint="@android:color/white"
-    android:id="@+id/btnIntChi">
+    android:backgroundTint="@android:color/white">
 
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/imageButton3"
-        android:background="@drawable/ac"
-        android:layout_centerVertical="true"
-        android:layout_toLeftOf="@+id/imageButton2"
-        android:layout_toStartOf="@+id/imageButton2" />
+        android:id="@+id/btnIntChi"
+        android:background="@drawable/ic_chiamate_chiuse"
+        android:onClick="openCloseIntervent"
+        android:layout_alignParentTop="true"
+        android:layout_alignLeft="@+id/btnIntApe"
+        android:layout_alignStart="@+id/btnIntApe" />
 
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/btnNuovoTra"
-        android:background="@drawable/nt"
-        android:layout_below="@+id/imageButton3"
-        android:layout_centerHorizontal="true" />
+        android:id="@+id/btnNuoTra"
+        android:background="@drawable/ic_nuovo_trasferimento"
+
+        android:onClick="openNewIntervent"
+        android:layout_below="@+id/btnIntApe"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/btnNuovatt"
-        android:background="@drawable/na"
-        android:layout_above="@+id/btnNuovoTra"
-        android:layout_toRightOf="@+id/btnNuovoTra"
-        android:layout_toEndOf="@+id/btnNuovoTra" />
+        android:id="@+id/btnNuoAtt"
+        android:background="@drawable/ic_nuova_chiamata"
+        android:onClick="openNewActivity"
+        android:layout_below="@+id/btnNuoTra"
+        android:layout_alignLeft="@+id/btnNuoTra"
+        android:layout_alignStart="@+id/btnNuoTra" />
 
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/imageButton2"
-        android:background="@drawable/ia"
-        android:layout_above="@+id/btnNuovatt"
-        android:layout_centerHorizontal="true" />
+        android:id="@+id/btnIntApe"
+        android:background="@drawable/ic_chiamate_aperte"
+        android:onClick=""
+        android:layout_below="@+id/btnIntChi"
+        android:layout_alignLeft="@+id/btnNuoTra"
+        android:layout_alignStart="@+id/btnNuoTra" />
 
 </RelativeLayout>

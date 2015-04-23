@@ -9,27 +9,29 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/btnDownload"
-        android:background="@drawable/download"
-        android:layout_centerVertical="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:background="@drawable/ic_download"
+        android:onClick="openDownload"
+        android:layout_alignParentTop="true"
+        android:layout_alignRight="@+id/btnWork"
+        android:layout_alignEnd="@+id/btnWork" />
 
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/btnUpload"
+        android:background="@drawable/ic_upload"
+        android:onClick="openUpload"
         android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
-        android:background="@drawable/upload"
-        android:src="@drawable/upload" />
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/btnWork"
-        android:background="@drawable/work"
-        android:layout_alignTop="@+id/btnUpload"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:background="@drawable/ic_work"
+        android:layout_alignParentBottom="true"
+        android:layout_alignRight="@+id/btnUpload"
+        android:layout_alignEnd="@+id/btnUpload" />
 
 </RelativeLayout>

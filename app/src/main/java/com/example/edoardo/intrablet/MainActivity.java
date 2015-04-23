@@ -1,9 +1,11 @@
 package com.example.edoardo.intrablet;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -35,5 +37,20 @@ public class MainActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void openDownload(View view) {
+        Intent intent = new Intent(this, DownloadActivity.class);
+        startActivity(intent);
+    }
+
+    public void openUpload(View view) {
+        Intent intent = new Intent(this, UploadActivity.class);
+        startActivity(intent);
+    }
+
+    public void startWork(View view) {
+        Intent intent = new Intent(this, WorkActivity.class);
+        startActivity(intent);
     }
 }
