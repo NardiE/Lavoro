@@ -32,6 +32,7 @@
         android:background="@drawable/ic_work"
         android:layout_alignParentBottom="true"
         android:layout_alignRight="@+id/btnUpload"
-        android:layout_alignEnd="@+id/btnUpload" />
+        android:layout_alignEnd="@+id/btnUpload"
+        android:onClick="startWork"/>
 
 </RelativeLayout>

@@ -10,4 +10,5 @@
     <string name="title_activity_close_intervent">CloseInterventActivity</string>
     <string name="title_activity_new_intervent">NewInterventActivity</string>
     <string name="title_activity_new_transf">NewTransfActivity</string>
+    <string name="txtvwTipo">Hardware</string>
 </resources>

@@ -1,51 +1,127 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="fill_parent"
+    android:layout_height="wrap_content" android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="com.example.edoardo.intrablet.WorkActivity"
-    android:backgroundTint="@android:color/white">
-
-    <ImageButton
-        android:layout_width="wrap_content"
+    android:background="@drawable/ic_workbackground"
+    android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/btnIntChi"
-        android:background="@drawable/ic_chiamate_chiuse"
-        android:onClick="openCloseIntervent"
-        android:layout_alignParentTop="true"
-        android:layout_alignLeft="@+id/btnIntApe"
-        android:layout_alignStart="@+id/btnIntApe" />
+        android:orientation="horizontal">
 
-    <ImageButton
-        android:layout_width="wrap_content"
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="3"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
+            android:text="Apri Nuovo Intervento"
+            android:id="@+id/textView2"
+            android:layout_marginTop="70dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnNuoAtt"
+            android:background="@drawable/ic_nuova_chiamata"
+            android:onClick="openNewActivity"
+            android:layout_gravity="right"
+            android:layout_alignParentRight="true"/>
+
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/btnNuoTra"
-        android:background="@drawable/ic_nuovo_trasferimento"
+        android:orientation="horizontal"
+        android:layout_marginTop="20dp">
 
-        android:onClick="openNewIntervent"
-        android:layout_below="@+id/btnIntApe"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="3"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
+            android:text="Visualizza Interventi Aperti"
+            android:id="@+id/textView4"
+            android:layout_marginTop="80dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
 
-    <ImageButton
-        android:layout_width="wrap_content"
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnIntApe"
+            android:background="@drawable/ic_chiamate_aperte"
+            android:onClick="openOpenActivity"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/btnNuoAtt"
-        android:background="@drawable/ic_nuova_chiamata"
-        android:onClick="openNewActivity"
-        android:layout_below="@+id/btnNuoTra"
-        android:layout_alignLeft="@+id/btnNuoTra"
-        android:layout_alignStart="@+id/btnNuoTra" />
+        android:orientation="horizontal"
+        android:layout_marginTop="20dp">
 
-    <ImageButton
-        android:layout_width="wrap_content"
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="3"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
+            android:text="Visualizza Interventi Chiusi"
+            android:id="@+id/textView3"
+            android:layout_marginTop="80dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnIntChi"
+            android:background="@drawable/ic_chiamate_chiuse"
+            android:onClick="openCloseIntervent"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/btnIntApe"
-        android:background="@drawable/ic_chiamate_aperte"
-        android:onClick=""
-        android:layout_below="@+id/btnIntChi"
-        android:layout_alignLeft="@+id/btnNuoTra"
-        android:layout_alignStart="@+id/btnNuoTra" />
+        android:orientation="horizontal"
+        android:layout_marginTop="20dp">
 
-</RelativeLayout>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="3"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
+            android:text="Nuovo Trasferimento"
+            android:id="@+id/textView5"
+            android:layout_marginTop="80dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnNuoTra"
+            android:background="@drawable/ic_nuovo_trasferimento"
+            android:onClick="openNewIntervent"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true" />
+
+    </LinearLayout>
+
+
+
+</LinearLayout>
