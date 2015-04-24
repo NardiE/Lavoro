@@ -1,5 +1,7 @@
 package com.example.edoardo.intrablet.database;
 
+import org.json.JSONObject;
+
 import java.util.Date;
 
 /**
@@ -28,6 +30,10 @@ public class SottoIt {
     private int idCliente;
     private String codiceCliente;
     private String idUnivoco;
+
+    public SottoIt(JSONObject json){
+        this._id = 0;
+    }
 
     public SottoIt(int _id, int id, String HWSW, int idit, int idTecnico, String tecnico,
                    String ragSocialeCliente, Date dataInizio, Date dataFine, String luogo,

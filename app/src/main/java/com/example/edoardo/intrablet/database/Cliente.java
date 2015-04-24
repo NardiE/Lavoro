@@ -1,5 +1,7 @@
 package com.example.edoardo.intrablet.database;
 
+import org.json.JSONObject;
+
 /**
  * Created by Giacomo on 10/11/2014.
  * If you need some explanation write down a mail to
@@ -18,6 +20,10 @@ public class Cliente {
     private String codiceSW;
     private String ragSociale;
     private int id;
+
+    public Cliente(JSONObject json){
+        this._id = 0;
+    }
 
     public Cliente(int _id, String codice, String codiceHW, String codiceSW, String ragSociale, int id)
     {

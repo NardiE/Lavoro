@@ -1,5 +1,7 @@
 package com.example.edoardo.intrablet.database;
 
+import org.json.JSONObject;
+
 /**
  * Created by Giacomo on 10/11/2014.
  * If you need some explanation write down a mail to
@@ -13,6 +15,10 @@ public class TipoIntervento {
     private String codice;
     private String descrizione;
     private int addebitabile;
+
+    public TipoIntervento(JSONObject json){
+        this._id = 0;
+    }
 
     public TipoIntervento(int _id, String codice, String descrizione, int addebitabile) {
 

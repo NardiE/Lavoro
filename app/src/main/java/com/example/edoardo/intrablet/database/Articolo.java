@@ -1,5 +1,9 @@
 package com.example.edoardo.intrablet.database;
 
+import android.content.ContentValues;
+
+import org.json.JSONObject;
+
 /**
  * Created by Giacomo on 10/11/2014.
  */
@@ -20,6 +24,10 @@ public class Articolo {
      int id;
      int qt;
      String idunivoco;
+
+    public Articolo(JSONObject json){
+        this._id = 0;
+    }
 
     public Articolo(int _id, int IDit, String matricola, String codice, String descrizione,
                     String tipointervento, String merceologico, String garanzia, float prezzo,
@@ -142,5 +150,4 @@ public class Articolo {
     public void setIdunivoco(String idunivoco) {
         this.idunivoco = idunivoco;
     }
-
 }

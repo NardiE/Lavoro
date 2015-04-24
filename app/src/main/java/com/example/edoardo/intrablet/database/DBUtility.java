@@ -124,7 +124,7 @@ public class DBUtility {
                 case CLIENTI: return (TABCLIENTI[]) arr;
                 default: return arr;
             }
-    }
+        }
 
         public ContentValues ObjectToRow(Object obj)
         {

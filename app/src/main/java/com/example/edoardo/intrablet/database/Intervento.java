@@ -1,4 +1,8 @@
 package com.example.edoardo.intrablet.database;
+import android.content.Intent;
+
+import org.json.JSONObject;
+
 import java.util.Date;
 
 /**
@@ -27,7 +31,11 @@ public class Intervento {
     private int chiusa;
     private String idunivoco;
 
-   public Intervento(){
+    public Intervento(JSONObject json){
+        this._id = 0;
+    }
+
+    public Intervento(){
        _id = 0;
    };
 
