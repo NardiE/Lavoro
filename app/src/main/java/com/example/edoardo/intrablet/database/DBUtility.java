@@ -88,17 +88,17 @@ import java.text.SimpleDateFormat;
  */
 public class DBUtility {
 
-    static final String TABELLE = "tabelle.db";
+    static final String TABELLE = "tabelle2.db";
     static final int DATABASE_VERSION = 1;
     static final String pk = "primarykey";
 
 
     /**Associazione NomiTabella alle Colonne e Oggetti Java*/
-    static enum BIJECTIONTABNAME{
+    public static enum BIJECTIONTABNAME{
         INTERVENTI(NOMITABELLE.INTERVENTI, TABINTERVENTI.values(),Intervento.class),
         SOTTOIT(NOMITABELLE.SOTTOIT, TABSOTTOIT.values(),SottoIt.class),
         ARTICOLI(NOMITABELLE.ARTICOLI, TABARTICOLI.values(),Articolo.class),
-        TIPIINTERVENTO(NOMITABELLE.TIPIINTERVENTO, TABTIPIINTERVENTO.values(),TipoIntervento.class),
+        TIPIINTERVENTO(NOMITABELLE.TIPIINTERVENTO, TABTIPIINTERVENTO.values(),TipiIntervento.class),
         CLIENTI(NOMITABELLE.CLIENTI, TABCLIENTI.values(),Cliente.class);
 
         SQLTabella[] arr;
@@ -133,7 +133,7 @@ public class DBUtility {
                 ContentValues cv = new ContentValues();
                 if(clsObj.equals(Intervento.class))
                 {
-                    SimpleDateFormat sdf= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    SimpleDateFormat sdf= new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
                     Intervento exc = (Intervento)obj;
                     cv.put(TABINTERVENTI.ID.getSQLColonnaInfo().getSQLColumnName(),exc.getId());
                     cv.put(TABINTERVENTI.HWSW.getSQLColonnaInfo().getSQLColumnName(),exc.getHwsw());
@@ -156,7 +156,7 @@ public class DBUtility {
                 }
                 else if(clsObj.equals(SottoIt.class))
                 {
-                    SimpleDateFormat sdf= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    SimpleDateFormat sdf= new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
                     SottoIt exc = (SottoIt)obj;
                     cv.put(TABSOTTOIT.ID.getSQLColonnaInfo().getSQLColumnName(),exc.getId());
                     cv.put(TABSOTTOIT.HWSW.getSQLColonnaInfo().getSQLColumnName(),exc.getHWSW());
@@ -190,9 +190,9 @@ public class DBUtility {
                     cv.put(TABARTICOLI.QT.getSQLColonnaInfo().getSQLColumnName(),exc.getQt());
                     cv.put(TABARTICOLI.IDUNIVOCO.getSQLColonnaInfo().getSQLColumnName(),exc.getIdunivoco());
                     return cv;
-                }else if(clsObj.equals(TipoIntervento.class))
+                }else if(clsObj.equals(TipiIntervento.class))
                 {
-                    TipoIntervento exc = (TipoIntervento) obj;
+                    TipiIntervento exc = (TipiIntervento) obj;
                     cv.put(TABTIPIINTERVENTO.ADDEBITABILE.getSQLColonnaInfo().getSQLColumnName(),exc.getAddebitabile());
                     cv.put(TABTIPIINTERVENTO.CODICE.getSQLColonnaInfo().getSQLColumnName(),exc.getCodice());
                     cv.put(TABTIPIINTERVENTO.DESCRIZIONE.getSQLColonnaInfo().getSQLColumnName(),exc.getDescrizione());
@@ -204,6 +204,7 @@ public class DBUtility {
                     cv.put(TABCLIENTI.CODICEHW.getSQLColonnaInfo().getSQLColumnName(),exc.getCodiceSW());
                     cv.put(TABCLIENTI.CODICESW.getSQLColonnaInfo().getSQLColumnName(),exc.getCodiceHW());
                     cv.put(TABCLIENTI.RAGIONESOCIALE.getSQLColonnaInfo().getSQLColumnName(),exc.getRagSociale());
+                    cv.put(TABCLIENTI.ID.getSQLColonnaInfo().getSQLColumnName(),exc.getId());
                     return cv;
                 }
                 else return null;
@@ -366,7 +367,7 @@ public class DBUtility {
         CODICEHW("CODICEHW", SQLTYPE.VARCHAR,15,false,2),
         CODICESW("CODICESW", SQLTYPE.VARCHAR,15,false,3),
         RAGIONESOCIALE("RAGIONESOCIALE", SQLTYPE.VARCHAR,61,false,4),
-        ID("ID", SQLTYPE.INTEGER,false,5);
+        ID("ID", SQLTYPE.INTEGER,false,10);
 
         private final SQLColonna colonna;
 

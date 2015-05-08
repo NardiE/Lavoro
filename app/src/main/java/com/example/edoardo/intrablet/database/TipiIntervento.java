@@ -7,7 +7,7 @@ import org.json.JSONObject;
  * If you need some explanation write down a mail to
  * giacomo.maestrelli@gmail.com
  */
-public class TipoIntervento {
+public class TipiIntervento {
     /***
      * Necessario per lavorare con i cursori Android
      */
@@ -16,11 +16,11 @@ public class TipoIntervento {
     private String descrizione;
     private int addebitabile;
 
-    public TipoIntervento(JSONObject json){
+    public TipiIntervento(JSONObject json){
         this._id = 0;
     }
 
-    public TipoIntervento(int _id, String codice, String descrizione, int addebitabile) {
+    public TipiIntervento(int _id, String codice, String descrizione, int addebitabile) {
 
         this._id = _id;
         this.codice = codice;

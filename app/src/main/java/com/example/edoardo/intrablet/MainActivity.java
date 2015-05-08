@@ -7,6 +7,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.example.edoardo.intrablet.database.Cliente;
+import com.example.edoardo.intrablet.database.MySqlLiteHelper;
+import com.example.edoardo.intrablet.database.TipiIntervento;
+
+import java.util.ArrayList;
+
 
 public class MainActivity extends ActionBarActivity {
 
@@ -14,6 +20,30 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ArrayList<Cliente> clienti = new ArrayList<>();
+        for(int i = 0; i < 30; i++){
+            clienti.add(new Cliente(i,"Pippo", "0","1",i + " SRL",i));
+        }
+        MySqlLiteHelper msql = new MySqlLiteHelper(this);
+        msql.deleteAllClienti();
+        msql.deleteAllInterventi();
+        msql.deleteAllSottoit();
+
+        for(Cliente c: clienti){
+            msql.addCliente(c);
+        }
+
+        ArrayList<TipiIntervento> tipi = new ArrayList<>();
+        tipi.add(new TipiIntervento(0,"FO","Formazione",0));
+        tipi.add(new TipiIntervento(1,"AE","Assistenza esterna",1));
+        tipi.add(new TipiIntervento(2,"AI","Assistenza interna",1));
+        tipi.add(new TipiIntervento(1,"TN","Trasferimento non addebitabile",1));
+        tipi.add(new TipiIntervento(2,"TA","Trasferimento addebitabile",1));
+        msql.deleteAllTipiIntervento();
+        for (TipiIntervento t: tipi){
+            msql.addTipoIntervento(t);
+        }
+        msql.close();
     }
 
 
@@ -33,6 +63,8 @@ public class MainActivity extends ActionBarActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            Intent i = new Intent(this, Settings.class);
+            startActivity(i);
             return true;
         }
 

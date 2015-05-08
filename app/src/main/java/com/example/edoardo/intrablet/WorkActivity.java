@@ -1,10 +1,13 @@
 package com.example.edoardo.intrablet;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+
+import com.example.edoardo.intrablet.database.OperazioniCorrenti;
 
 
 public class WorkActivity extends ActionBarActivity {
@@ -32,6 +35,8 @@ public class WorkActivity extends ActionBarActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            Intent i = new Intent(this, Settings.class);
+            startActivity(i);
             return true;
         }
 
@@ -39,14 +44,25 @@ public class WorkActivity extends ActionBarActivity {
     }
 
     public void openCloseIntervent(View view) {
+        Intent i = new Intent(this, OpenInterventActivity.class);
+        i.putExtra("OP", "" + OperazioniCorrenti.CHIAMATECHIUSE);
+        startActivity(i);
     }
 
     public void openNewIntervent(View view) {
+        Intent i = new Intent(this, NewInterventActivity.class);
+        i.putExtra("OP", "" + OperazioniCorrenti.INSERISCIINTERVENTO);
+        startActivity(i);
     }
 
     public void openNewActivity(View view) {
+        Intent i = new Intent(this, NewTransfActivity.class);
+        startActivity(i);
     }
 
     public void openOpenActivity(View view) {
+        Intent i = new Intent(this, OpenInterventActivity.class);
+        i.putExtra("OP", "" + OperazioniCorrenti.CHIAMATEAPERTE);
+        startActivity(i);
     }
 }

@@ -27,7 +27,7 @@ public class SottoIt {
     private int nonFatturare;
     private int nonTrasferire;
     private int chiusa;
-    private int idCliente;
+    private Integer idCliente;
     private String codiceCliente;
     private String idUnivoco;
 
@@ -38,7 +38,7 @@ public class SottoIt {
     public SottoIt(int _id, int id, String HWSW, int idit, int idTecnico, String tecnico,
                    String ragSocialeCliente, Date dataInizio, Date dataFine, String luogo,
                    String notaTecnico, int nonFatturare, int nonTrasferire, int chiusa,
-                   int idCliente, String codiceCliente, String idUnivoco)
+                   Integer idCliente, String codiceCliente, String idUnivoco)
     {
         this._id = _id;
         this.id = id;
@@ -55,6 +55,29 @@ public class SottoIt {
         this.nonTrasferire = nonTrasferire;
         this.chiusa = chiusa;
         this.idCliente = idCliente;
+        this.codiceCliente = codiceCliente;
+        this.idUnivoco = idUnivoco;
+    }
+
+    public SottoIt(int _id, int id, String HWSW, int idit, int idTecnico, String tecnico,
+                   String ragSocialeCliente, Date dataInizio, Date dataFine, String luogo,
+                   String notaTecnico, int nonFatturare, int nonTrasferire, int chiusa, String codiceCliente, String idUnivoco)
+    {
+        this._id = _id;
+        this.id = id;
+        this.HWSW = HWSW;
+        this.idit = idit;
+        this.idTecnico = idTecnico;
+        this.tecnico = tecnico;
+        this.ragSocialeCliente = ragSocialeCliente;
+        this.dataInizio = dataInizio;
+        this.dataFine = dataFine;
+        this.luogo = luogo;
+        this.notaTecnico = notaTecnico;
+        this.nonFatturare = nonFatturare;
+        this.nonTrasferire = nonTrasferire;
+        this.chiusa = chiusa;
+        this.idCliente = null;
         this.codiceCliente = codiceCliente;
         this.idUnivoco = idUnivoco;
     }
@@ -171,11 +194,11 @@ public class SottoIt {
         this.chiusa = chiusa;
     }
 
-    public int getIdCliente() {
+    public Integer getIdCliente() {
         return idCliente;
     }
 
-    public void setIdCliente(int idCliente) {
+    public void setIdCliente(Integer idCliente) {
         this.idCliente = idCliente;
     }
 

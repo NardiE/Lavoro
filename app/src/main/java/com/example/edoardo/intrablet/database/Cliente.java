@@ -2,6 +2,8 @@ package com.example.edoardo.intrablet.database;
 
 import org.json.JSONObject;
 
+import java.io.Serializable;
+
 /**
  * Created by Giacomo on 10/11/2014.
  * If you need some explanation write down a mail to
@@ -9,7 +11,7 @@ import org.json.JSONObject;
  *
  *
  */
-public class Cliente {
+public class Cliente implements Serializable{
     /*fixme problema singolare/plurale*/
     /***
      * Necessario per lavorare con i cursori Android
@@ -25,8 +27,7 @@ public class Cliente {
         this._id = 0;
     }
 
-    public Cliente(int _id, String codice, String codiceHW, String codiceSW, String ragSociale, int id)
-    {
+    public Cliente(int _id, String codice, String codiceHW, String codiceSW, String ragSociale, int id) {
         this._id = _id;
         this.codice = codice;
         this.codiceHW = codiceHW;

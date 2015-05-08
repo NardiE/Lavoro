@@ -1,0 +1,140 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:orientation="vertical"
+    tools:context="com.example.edoardo.intrablet.AggiungiArticolo">
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+        <TextView
+            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"
+            android:text="Id Intervento: "
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
+            android:text="0"
+            android:id="@+id/edttxtIdInterventoArticolo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"
+            android:text="Tipo: "
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <Spinner
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:id="@+id/spinner"
+            android:entries="@array/array_name"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+        <TextView
+            android:textAppearance="@android:style/TextAppearance.Large"
+            android:text="Matricola: "
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <EditText
+            android:layout_width="0dp"
+            android:textAppearance="@android:style/TextAppearance.Medium"
+            android:id="@+id/edttxtMatricola"
+            android:hint="Inserire la Matricola"
+            android:layout_weight="1"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:text="Codice: "
+            android:textAppearance="@android:style/TextAppearance.Large"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <EditText
+            android:layout_width="0dp"
+            android:id="@+id/edttxtCodice"
+            android:hint="Inserire il Codice"
+            android:textAppearance="@android:style/TextAppearance.Medium"
+            android:layout_weight="1"
+            android:layout_height="wrap_content" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:textAppearance="@android:style/TextAppearance.Large"
+                    android:text="Descrizione: "
+                    android:layout_height="wrap_content" />
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:id="@+id/edttxtDescrizione"
+                    android:hint="Inserire la Descrizione"
+                    android:textAppearance="@android:style/TextAppearance.Medium"
+                    android:layout_height="wrap_content" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+            <TextView
+                android:layout_width="wrap_content"
+                android:textAppearance="@android:style/TextAppearance.Large"
+                android:text="Prezzo: "
+                android:layout_height="wrap_content" />
+            <EditText
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:id="@+id/edttxtPrezzo"
+                android:hint="0.0"
+                android:textAppearance="@android:style/TextAppearance.Medium"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+            <TextView
+                android:layout_width="wrap_content"
+                android:textAppearance="@android:style/TextAppearance.Large"
+                android:text="Quantità: "
+                android:layout_height="wrap_content" />
+            <EditText
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:id="@+id/edttxtQuantità"
+                android:hint="Inserire la quantità"
+                android:textAppearance="@android:style/TextAppearance.Medium"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+        <Button
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnregistraart"
+            android:onClick="aggiungiArticolo"
+            android:text="Registra"/>
+        <Button
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:onClick="annullaArticolo"
+            android:text="Annulla "/>
+    </LinearLayout>
+
+
+</LinearLayout>

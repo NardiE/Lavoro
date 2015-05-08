@@ -1,0 +1,250 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:orientation="vertical"
+    tools:context="com.example.edoardo.intrablet.AddOperation">
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+        <TextView
+            android:textAppearance="@android:style/TextAppearance.Large"
+            android:text="Cliente: "
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:textAppearance="@android:style/TextAppearance.Medium"
+            android:id="@+id/txtvwCodiceao"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:textAppearance="@android:style/TextAppearance.Medium"
+            android:id="@+id/txtvwNomeClienteao"
+            android:layout_width="0dp"
+            android:layout_weight="3"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:id="@+id/txtvwHideIDao"/>
+        <Button
+            android:id="@+id/btnCambiaCliente"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:onClick="scegliCliente"
+            android:text="Cambia"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+        <TextView
+            android:textAppearance="@android:style/TextAppearance.Large"
+            android:text="Tipo: "
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <Spinner
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:id="@+id/spinnerTipo"
+            android:layout_height="wrap_content"></Spinner>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:id="@+id/txtvwHWSW"
+            android:textAppearance="@android:style/TextAppearance.Medium"
+            android:text="PP"/>
+        <TextView
+            android:textAppearance="@android:style/TextAppearance.Large"
+            android:text="Tecnico: "
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:textAppearance="@android:style/TextAppearance.Medium"
+            android:id="@+id/txtvwNomeTecnico"
+            android:text="Edoardo Nardi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+        <TextView
+            android:textAppearance="@android:style/TextAppearance.Large"
+            android:text="Data: "
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <EditText
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:hint="dd/mm/yyyy"
+            android:layout_height="wrap_content"
+            android:id="@+id/edttxtData"/>
+        <TextView
+            android:textAppearance="@android:style/TextAppearance.Large"
+            android:text="Ora Inizio: "
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <EditText
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:hint="hh:mm"
+            android:layout_marginRight="10dp"
+            android:id="@+id/edttxtOraDa"/>
+        <TextView
+            android:textAppearance="@android:style/TextAppearance.Large"
+            android:text="Ora Fine: "
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <EditText
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:hint="hh:mm"
+            android:layout_height="wrap_content"
+            android:id="@+id/edttxtOraA"/>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+        <TextView
+            android:textAppearance="@android:style/TextAppearance.Large"
+            android:text="Andata"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="hh:mm"
+            android:id="@+id/edttxtAndataDa"/>
+        <TextView
+            android:textAppearance="@android:style/TextAppearance.Large"
+            android:text="-"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <EditText
+            android:layout_width="wrap_content"
+            android:hint="hh:mm"
+            android:layout_height="wrap_content"
+            android:id="@+id/edttxtAndataA"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:textAppearance="@android:style/TextAppearance.Large"
+            android:text="Ritorno"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="hh:mm"
+            android:id="@+id/edttxtRitornoDa"/>
+        <TextView
+            android:textAppearance="@android:style/TextAppearance.Large"
+            android:text="-"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <EditText
+            android:layout_width="wrap_content"
+            android:hint="hh:mm"
+            android:layout_height="wrap_content"
+            android:id="@+id/edttxtRitornoA"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:textAppearance="@android:style/TextAppearance.Large"
+            android:text="Note: "
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="4">
+
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:backgroundTint="#ffe5e5e5"
+            android:background="#ffdedede"
+            android:id="@+id/edttxtNoteTecnico"
+            android:gravity="top|left"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp">
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/chkbxNonFatturare"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Non Fatturare"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content" />
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/chkbxNonTrasferire"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Non Trasferire"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content" />
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/chkbxChiudereIntervento"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Chiudere Intervento"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp">
+        <Button
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnRegistra"
+            android:onClick="inserisciOperazione"
+            android:text="Registra"/>
+        <Button
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="Annulla"
+            android:onClick="annullaModifiche"/>
+    </LinearLayout>
+
+
+</LinearLayout>

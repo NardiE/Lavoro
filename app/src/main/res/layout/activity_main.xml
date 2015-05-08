@@ -35,4 +35,31 @@
         android:layout_alignEnd="@+id/btnUpload"
         android:onClick="startWork"/>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="@android:style/TextAppearance.Large"
+        android:text="CARICA I DATI SUL TUO TABLET"
+        android:textColor="#000000"
+        android:textStyle="bold"
+        android:layout_marginTop="80dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="@android:style/TextAppearance.Large"
+        android:text="INVIA I DATI AL SERVER"
+        android:textColor="#000000"
+        android:textStyle="bold"
+        android:layout_marginTop="420dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="@android:style/TextAppearance.Large"
+        android:text="INSERISCI O MODIFICA INTERVENTI"
+        android:textColor="#000000"
+        android:textStyle="bold"
+        android:layout_marginTop="760dp"/>
+
 </RelativeLayout>

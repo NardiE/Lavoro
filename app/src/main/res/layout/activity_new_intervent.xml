@@ -13,16 +13,28 @@
     android:orientation="horizontal">
 
         <TextView
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/txtvwTipo"
-            android:text="@string/txtvwTipo"
-            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"
-            android:layout_weight="1"/>
+            android:text="HW"
+            android:layout_marginRight="20dp"
+            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"/>
         <TextView
-            android:layout_width="0dp"
+            android:layout_width="1dp"
+            android:layout_height="1dp"
+            android:id="@+id/txtvwHideClientID"/>
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"/>
+            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"
+            android:text="Num: "/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="153"
+            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"
+            android:id="@+id/txtvwNumero"
+            android:layout_marginRight="20dp"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -40,7 +52,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="20dp">
+        android:layout_marginTop="10dp">
 
         <TextView
             android:layout_width="0dp"
@@ -51,12 +63,20 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:id="@+id/txtvwClientCod"
+            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_weight="2"
+            android:id="@+id/txtvwRagioneSociale"
             android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"/>
         <Button
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:id="@+id/btncerca"
             android:text="CERCA"
             android:onClick="cercaCliente"/>
 
@@ -65,75 +85,57 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="20dp">
+        android:layout_marginTop="5dp">
+
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"
-            android:text="Indirizzo: "/>
+            android:text=""
+            android:id="@+id/txtvwIndirizzo"
+            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"/>
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"
-            android:id="@+id/txtvwIndirizzo"/>
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"
-            android:text="Località: "/>
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"
-            android:id="@+id/txtvwLocalità"/>
-    </LinearLayout>
+            android:id="@+id/txtvwLocalita"
+            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"/>
+
+    </LinearLayout><LinearLayout
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:layout_marginTop="5dp">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tel: "
+        android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"/>
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text=""
+        android:id="@+id/txtvwTel"
+        android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Fax:"
+        android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"/>
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:id="@+id/txtvwFax"
+        android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"/>
+
+</LinearLayout>
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="20dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"
-            android:text="Tel: "/>
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:id="@+id/txtvwTel"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"
-            android:text="Fax: "/>
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:id="@+id/txtvwFax"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"
-            android:text="Email: "/>
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:id="@+id/txtvwEmail"/>
-
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="40dp">
+        android:layout_marginTop="10dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -145,13 +147,14 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="20dp">
-
-        <TextView
+        android:layout_marginTop="0dp">
+        <EditText
             android:layout_width="fill_parent"
-            android:layout_height="200dp"
             android:backgroundTint="#ffe5e5e5"
-            android:background="#ffdedede" />
+            android:background="#ffdedede"
+            android:layout_height="100dp"
+            android:gravity="top|left"
+            android:id="@+id/edttxtMotivoInt"/>
 
     </LinearLayout>
 
@@ -159,7 +162,7 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-        android:layout_marginTop="40dp">
+        android:layout_marginTop="10dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -175,7 +178,7 @@
         android:layout_marginTop="10dp">
         <ListView
             android:layout_width="match_parent"
-            android:layout_height="250dp"
+            android:layout_height="140dp"
             android:id="@+id/lstvwArticoli"></ListView>
 
     </LinearLayout>
@@ -184,10 +187,76 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <Button
-            android:layout_width="fill_parent"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:text="Inserisci Articolo"
+            android:onClick="insertArticle"
             android:id="@+id/btnInserisciArticolo"/>
+    </LinearLayout><LinearLayout
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:layout_marginTop="20dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"
+        android:text="Operazioni: "/>
+
+</LinearLayout>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp">
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="140dp"
+            android:id="@+id/lstvwOperazioniint"></ListView>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <Button
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="Inserisci Operazione"
+            android:onClick="insertOperation"
+            android:id="@+id/btnInserisciOperazionetra"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+        <CheckBox
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:id="@+id/chkbxTrasferisci"
+            android:text="Trasferisci ad Altro Tecnico"/>
+        <CheckBox
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:id="@+id/chkbxNoTMR"
+            android:text="NoTMR"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        android:layout_weight="1">
+        <Button
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:text="Conferma Intervento"
+            android:onClick="confermaIntervento"
+            android:id="@+id/btnInserisciIntervento"/>
     </LinearLayout>
 
 </LinearLayout>
