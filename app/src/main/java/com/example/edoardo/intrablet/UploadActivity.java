@@ -37,6 +37,10 @@ public class UploadActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upload);
+
+        // setto il titolo
+        getActionBar().setTitle("Invia i dati al Server");
+        getSupportActionBar().setTitle("Invia i dati al Server");
     }
 
 

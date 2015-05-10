@@ -33,6 +33,7 @@ import java.util.TimeZone;
 public class AddOperation extends ActionBarActivity {
 
     static int operazionecorrente;
+    static int operazioneprecedente = OperazioniCorrenti.NOOP;
     static int idTecnico;
     private int IDIt;
     static int ID;
@@ -46,12 +47,19 @@ public class AddOperation extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_operation);
 
+        // setto il titolo
+        getActionBar().setTitle("Operazione");
+        getSupportActionBar().setTitle("Operazione");
+
 
         SharedPreferences sharedpreferences = getSharedPreferences(Settings.preferences, Context.MODE_PRIVATE);
         MySqlLiteHelper mysql = new MySqlLiteHelper(this);
 
         Intent intent = getIntent();
         operazionecorrente = Integer.parseInt(intent.getStringExtra("OP"));
+        if(intent.getStringExtra("OPP") != null && !intent.getStringExtra("OPP").equals("")){
+            operazioneprecedente = Integer.parseInt(intent.getStringExtra("OPP"));
+        }
         idTecnico = Integer.parseInt(sharedpreferences.getString(TipiConfigurazione.idTecnico, ""));
 
         // setto Tipo e Nome Tecnico (comune a tutti)
@@ -326,8 +334,11 @@ public class AddOperation extends ActionBarActivity {
                 mysql.addSottoIntervento(nuovoint);
                 Intent i = new Intent(this, NewInterventActivity.class);
                 // dico che sto ritornando al Nuovo Intervento TODO implementare ritorno in OperazioniCorrenti
-                i.putExtra("OP", "" + OperazioniCorrenti.RITORNOCONCHIUSA );
+                i.putExtra("OP", "" + OperazioniCorrenti.MODIFICAINTERVENTO );
                 int chiusa = ((CheckBox) findViewById(R.id.chkbxChiudereIntervento)).isChecked() ? 1 : 0;
+                if(operazioneprecedente == OperazioniCorrenti.CHIAMATEAPERTE){
+                    i.putExtra("OPP", "" + operazioneprecedente);
+                }
                 i.putExtra("CHIUSA", "" + chiusa);
                 i.putExtra("ID", "" + IDIt);
                 startActivity(i);
@@ -339,7 +350,10 @@ public class AddOperation extends ActionBarActivity {
                 mysql.updateSottoIntervento(updateint);
                 Intent i = new Intent(this, NewInterventActivity.class);
                 // dico che sto ritornando al Nuovo Intervento TODO implementare ritorno in OperazioniCorrenti
-                i.putExtra("OP", "" + OperazioniCorrenti.RITORNOCONCHIUSA );
+                i.putExtra("OP", "" + OperazioniCorrenti.MODIFICAINTERVENTO );
+                if(operazioneprecedente == OperazioniCorrenti.CHIAMATEAPERTE){
+                    i.putExtra("OPP", "" + operazioneprecedente);
+                }
                 int chiusa = ((CheckBox) findViewById(R.id.chkbxChiudereIntervento)).isChecked() ? 1 : 0;
                 i.putExtra("CHIUSA", "" + chiusa);
                 i.putExtra("ID", "" + IDIt);
@@ -387,10 +401,13 @@ public class AddOperation extends ActionBarActivity {
         }
         if(operazionecorrente == OperazioniCorrenti.INSERIMENTOOPERAZIONEINTERVENTO || operazionecorrente == OperazioniCorrenti.MODIFICAOPERAZIONEINTERVENTO){
             Intent i = new Intent(this, NewInterventActivity.class);
-            i.putExtra("OP", "" + OperazioniCorrenti.RITORNOCONCHIUSA);
+            i.putExtra("OP", "" + OperazioniCorrenti.MODIFICAINTERVENTO);
             int chiusa = ((CheckBox) findViewById(R.id.chkbxChiudereIntervento)).isChecked() ? 1 : 0;
             i.putExtra("CHIUSA", "" + chiusa);
             i.putExtra("ID", "" + IDIt);
+            if(operazioneprecedente == OperazioniCorrenti.CHIAMATEAPERTE){
+                i.putExtra("OPP", "" + operazioneprecedente);
+            }
             startActivity(i);
         }
     }

@@ -41,6 +41,10 @@ public class NewTransfActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_transf);
 
+        // setto il titolo
+        getActionBar().setTitle("Operazioni");
+        getSupportActionBar().setTitle("Operazioni");
+
         SharedPreferences sharedpreferences = getSharedPreferences(Settings.preferences, Context.MODE_PRIVATE);
         Button inserisci = (Button)findViewById(R.id.btnAggiungiTransf);        //setto il test HW SW del bottone
         inserisci.setText(inserisci.getText().toString() + " " + sharedpreferences.getString(TipiConfigurazione.tipoInterventi , "") + "W");

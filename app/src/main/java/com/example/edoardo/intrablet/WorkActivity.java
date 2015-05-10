@@ -16,6 +16,10 @@ public class WorkActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_work);
+
+        // setto il titolo
+        getActionBar().setTitle("Menu Principale");
+        getSupportActionBar().setTitle("Menu Principale");
     }
 
 

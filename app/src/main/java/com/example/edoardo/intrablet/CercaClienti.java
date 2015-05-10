@@ -26,6 +26,10 @@ public class CercaClienti extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cerca_clienti);
 
+        // setto il titolo
+        getActionBar().setTitle("Cerca Clienti");
+        getSupportActionBar().setTitle("Cerca Clienti");
+
         MySqlLiteHelper msqlh = new MySqlLiteHelper(this);
         clientList = (ArrayList)msqlh.getAllCliente();
         ArrayList<HashMap<String, String>> data = new ArrayList<HashMap<String, String>>();

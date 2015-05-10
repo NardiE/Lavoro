@@ -26,14 +26,23 @@ public class AggiungiArticolo extends ActionBarActivity {
     private int IDIt;
     private int ID;
     private int operazioneCorrente;
+    private int operazioneprecedente = OperazioniCorrenti.NOOP;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_aggiungi_articolo);
         Intent intent = getIntent();
+
+        // setto il titolo
+        getActionBar().setTitle("Articolo");
+        getSupportActionBar().setTitle("Articolo");
+
         IDIt = Integer.parseInt(intent.getStringExtra("IDIt"));
         operazioneCorrente = Integer.parseInt(intent.getStringExtra("OP"));
+        if(intent.getStringExtra("OPP") != null && !intent.getStringExtra("OPP").equals("")){
+            operazioneprecedente = Integer.parseInt(intent.getStringExtra("OPP"));
+        }
         ((TextView) findViewById(R.id.edttxtIdInterventoArticolo)).setText("" + IDIt);
         if(operazioneCorrente == OperazioniCorrenti.MODIFICAARTICOLO || operazioneCorrente == OperazioniCorrenti.CHIAMATECHIUSE){
             MySqlLiteHelper mysql = new MySqlLiteHelper(this);
@@ -122,7 +131,10 @@ public class AggiungiArticolo extends ActionBarActivity {
             Articolo nuovo = new Articolo(vecchio.getId(), vecchio.getIDit(), matricola, codice, descrizione, tipoInt, vecchio.getMerceologico(), vecchio.getGaranzia(), prezzo, vecchio.getId(), quantità, vecchio.getIdunivoco());
             mysql.updateArticolo(nuovo);
             Intent i = new Intent(this, NewInterventActivity.class);
-            i.putExtra("OP","" + OperazioniCorrenti.RITORNO);
+            i.putExtra("OP","" + OperazioniCorrenti.MODIFICAINTERVENTO);
+            if(operazioneprecedente == OperazioniCorrenti.CHIAMATEAPERTE){
+                i.putExtra("OPP", "" + operazioneprecedente);
+            }
             i.putExtra("ID", "" + IDIt);
             startActivity(i);
         }
@@ -132,7 +144,10 @@ public class AggiungiArticolo extends ActionBarActivity {
 
             mysql.addArticolo(nuovo);
             Intent i = new Intent(this, NewInterventActivity.class);
-            i.putExtra("OP","" + OperazioniCorrenti.RITORNO);
+            i.putExtra("OP","" + OperazioniCorrenti.MODIFICAINTERVENTO);
+            if(operazioneprecedente == OperazioniCorrenti.CHIAMATEAPERTE){
+                i.putExtra("OPP", "" + operazioneprecedente);
+            }
             i.putExtra("ID", "" + IDIt);
             startActivity(i);
         }
@@ -142,13 +157,19 @@ public class AggiungiArticolo extends ActionBarActivity {
     public void annullaArticolo(View view) {
         if(operazioneCorrente == OperazioniCorrenti.NUOVOARTICOLO || operazioneCorrente == OperazioniCorrenti.MODIFICAARTICOLO){
             Intent i = new Intent(this, NewInterventActivity.class);
-            i.putExtra("OP", "" + OperazioniCorrenti.RITORNO);
+            i.putExtra("OP", "" + OperazioniCorrenti.MODIFICAINTERVENTO);
+            if(operazioneprecedente == OperazioniCorrenti.CHIAMATEAPERTE){
+                i.putExtra("OPP", "" + operazioneprecedente);
+            }
             i.putExtra("ID", "" + IDIt);
             startActivity(i);
         }
         if(operazioneCorrente == OperazioniCorrenti.CHIAMATECHIUSE){
             Intent i = new Intent(this, NewInterventActivity.class);
             i.putExtra("OP", "" + OperazioniCorrenti.CHIAMATECHIUSE);
+            if(operazioneprecedente == OperazioniCorrenti.CHIAMATEAPERTE){
+                i.putExtra("OPP", "" + operazioneprecedente);
+            }
             i.putExtra("ID", "" + IDIt);
             startActivity(i);
         }

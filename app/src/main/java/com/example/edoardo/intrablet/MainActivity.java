@@ -20,6 +20,11 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // setto il titolo
+        getActionBar().setTitle("Home");
+        getSupportActionBar().setTitle("Home");
+
         ArrayList<Cliente> clienti = new ArrayList<>();
         for(int i = 0; i < 30; i++){
             clienti.add(new Cliente(i,"Pippo", "0","1",i + " SRL",i));

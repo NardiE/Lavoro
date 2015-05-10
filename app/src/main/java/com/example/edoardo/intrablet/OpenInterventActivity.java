@@ -37,6 +37,11 @@ public class OpenInterventActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_open_intervent);
+
+        // setto il titolo
+        getActionBar().setTitle("Lista Interventi");
+        getSupportActionBar().setTitle("Lista Interventi");
+
         Intent i = getIntent();
         operazionecorrente = Integer.parseInt(i.getStringExtra("OP"));
 

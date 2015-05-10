@@ -13,6 +13,10 @@ public class DownloadActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_download);
+
+        // setto il titolo
+        getActionBar().setTitle("Scarica i dati in locale");
+        getSupportActionBar().setTitle("Scarica i dati in locale");
     }
 
 

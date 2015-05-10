@@ -41,6 +41,7 @@ public class NewInterventActivity extends ActionBarActivity {
 
     static final int PICK_CLIENT_REQUEST = 1;
     private int operazionecorrente;
+    private int operazioneprecedente = OperazioniCorrenti.NOOP;
     private int idTecnico;
     private int ID;
     private int chiusa;
@@ -51,6 +52,11 @@ public class NewInterventActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_intervent);
+
+        // setto il titolo
+        getActionBar().setTitle("Intervento");
+        getSupportActionBar().setTitle("Intervento");
+
         //Devo distinguere se ho un nuovo intervento oppure se ne sto modificando uno esistente
         SharedPreferences sharedpreferences = getSharedPreferences(Settings.preferences, Context.MODE_PRIVATE);
         MySqlLiteHelper mysql = new MySqlLiteHelper(this);
@@ -60,17 +66,22 @@ public class NewInterventActivity extends ActionBarActivity {
         Intent intent = getIntent();
         operazionecorrente = Integer.parseInt(intent.getStringExtra("OP"));
 
-        if(operazionecorrente == OperazioniCorrenti.RITORNOCONCHIUSA){
-            chiusa = Integer.parseInt(intent.getStringExtra("CHIUSA"));
-        }
 
-        // se ritorno da Articoli devo recuperare il mio ID;
-        if(operazionecorrente == OperazioniCorrenti.RITORNO || operazionecorrente == OperazioniCorrenti.RITORNOCONCHIUSA){
+        if(operazionecorrente == OperazioniCorrenti.CHIAMATEAPERTE || operazionecorrente == OperazioniCorrenti.CHIAMATECHIUSE || operazionecorrente == OperazioniCorrenti.MODIFICAINTERVENTO){
+
+            operazioneprecedente = operazionecorrente;
+
+            if(intent.getStringExtra("CHIUSA") != null && !intent.getStringExtra("CHIUSA").equals("") ){
+                chiusa = Integer.parseInt(intent.getStringExtra("CHIUSA"));
+            }
+
+            if(intent.getStringExtra("OPP")!= null && !intent.getStringExtra("OPP").equals("")){
+                operazioneprecedente = Integer.parseInt(intent.getStringExtra("OPP"));
+            }
+
             ID = Integer.parseInt(intent.getStringExtra("ID"));
             Intervento it = mysql.getIntervento(ID).get(0);
 
-            // carico le impostazioni
-            // da implementare trasferimento tecnico
             ((EditText) findViewById(R.id.edttxtMotivoInt)).setText(it.getMotivoChiamata());
             ((TextView) findViewById(R.id.txtvwTipo)).setText(it.getHwsw() + "W");
             ((TextView) findViewById(R.id.txtvwDataOra)).setText("" + sdf.format(it.getData()));
@@ -82,16 +93,17 @@ public class NewInterventActivity extends ActionBarActivity {
             ((TextView) findViewById(R.id.txtvwHideClientID)).setText("" + it.getIdCliente());
             ((TextView) findViewById(R.id.txtvwClientCod)).setText("" + it.getCodiceCliente());
             ((TextView) findViewById(R.id.txtvwRagioneSociale)).setText("" + it.getRagSocialeCliente());
-            // recupero informazioni per le checkbox
-            ((CheckBox) findViewById(R.id.chkbxTrasferisci)).setChecked(false);
+            ((CheckBox) findViewById(R.id.chkbxTrasferisci)).setChecked((it.getChiusa() == 2));
+            ((CheckBox) findViewById(R.id.chkbxNoTMR)).setChecked((it.getNonTrasferire() == 1));
 
-            // se chiusa == 2 significa trasferisci
-            if(it.getChiusa() == 2)
-                ((CheckBox) findViewById(R.id.chkbxTrasferisci)).setChecked(true);
+            if(operazionecorrente == OperazioniCorrenti.CHIAMATECHIUSE){
+                // disabilito bottone cambio cliente, inserimento articolo inserimento operazionetra e cambio il testo di conferma
+                ((Button) findViewById(R.id.btncerca)).setVisibility(View.INVISIBLE);
+                ((Button) findViewById(R.id.btnInserisciArticolo)).setVisibility(View.INVISIBLE);
+                ((Button) findViewById(R.id.btnInserisciOperazionetra)).setVisibility(View.INVISIBLE);
+                ((Button) findViewById(R.id.btnInserisciIntervento)).setText("Annulla Modifiche");
+            }
 
-            ((CheckBox) findViewById(R.id.chkbxNoTMR)).setChecked(false);
-            if(it.getNonTrasferire() == 1)
-                ((CheckBox) findViewById(R.id.chkbxNoTMR)).setChecked(true);
         }
 
         //if(Modifica){
@@ -145,31 +157,6 @@ public class NewInterventActivity extends ActionBarActivity {
             ((TextView) findViewById(R.id.txtvwNumero)).setText("" + numero);
             ((CheckBox) findViewById(R.id.chkbxTrasferisci)).setChecked((it.getChiusa() == 2));
             ((CheckBox) findViewById(R.id.chkbxNoTMR)).setChecked((it.getNonTrasferire() == 1));
-        }
-
-        if(operazionecorrente == OperazioniCorrenti.CHIAMATEAPERTE || operazionecorrente == OperazioniCorrenti.CHIAMATECHIUSE){
-            ID = Integer.parseInt(intent.getStringExtra("ID"));
-            Intervento it = mysql.getIntervento(ID).get(0);
-
-            ((EditText) findViewById(R.id.edttxtMotivoInt)).setText(it.getMotivoChiamata());
-            ((TextView) findViewById(R.id.txtvwTipo)).setText(it.getHwsw() + "W");
-            ((TextView) findViewById(R.id.txtvwDataOra)).setText("" + sdf.format(it.getData()));
-            ((TextView) findViewById(R.id.txtvwIndirizzo)).setText("" + it.getIndirizzoCliente());
-            ((TextView) findViewById(R.id.txtvwLocalita)).setText("" + it.getLocalitaCliente());
-            ((TextView) findViewById(R.id.txtvwTel)).setText("" + it.getTelefonoCliente());
-            ((TextView) findViewById(R.id.txtvwFax)).setText("" + it.getFaxCliente());
-            ((TextView) findViewById(R.id.txtvwNumero)).setText("" + it.getNumero());
-            ((CheckBox) findViewById(R.id.chkbxTrasferisci)).setChecked((it.getChiusa() == 2));
-            ((CheckBox) findViewById(R.id.chkbxNoTMR)).setChecked((it.getNonTrasferire() == 1));
-
-            if(operazionecorrente == OperazioniCorrenti.CHIAMATECHIUSE){
-                // disabilito bottone cambio cliente, inserimento articolo inserimento operazionetra e cambio il testo di conferma
-                ((Button) findViewById(R.id.btncerca)).setVisibility(View.INVISIBLE);
-                ((Button) findViewById(R.id.btnInserisciArticolo)).setVisibility(View.INVISIBLE);
-                ((Button) findViewById(R.id.btnInserisciOperazionetra)).setVisibility(View.INVISIBLE);
-                ((Button) findViewById(R.id.btnInserisciIntervento)).setText("Annulla Modifiche");
-            }
-
         }
 
         //popolo le listview relative agli Articoli comune a modifiche inserimenti e ritorni da Operazioni o Articoli
@@ -240,6 +227,9 @@ public class NewInterventActivity extends ActionBarActivity {
         Intent i = new Intent(this, AggiungiArticolo.class);
         i.putExtra("IDIt", "" + ID);
         i.putExtra("OP", "" + OperazioniCorrenti.NUOVOARTICOLO);
+        if(operazioneprecedente == OperazioniCorrenti.CHIAMATEAPERTE){
+            i.putExtra("OPP", "" + operazioneprecedente);
+        }
         startActivity(i);
 
     }
@@ -277,6 +267,13 @@ public class NewInterventActivity extends ActionBarActivity {
 
     public void confermaIntervento(View view) {
         // qui devo fare aggiornamento dell' intervento
+        if(operazioneprecedente == OperazioniCorrenti.CHIAMATEAPERTE){
+            aggiornaIntervento(view);
+            Intent i = new Intent(this, OpenInterventActivity.class);
+            i.putExtra("OP","" + OperazioniCorrenti.CHIAMATEAPERTE);
+            startActivity(i);
+            return;
+        }
         if(operazionecorrente != OperazioniCorrenti.CHIAMATECHIUSE) {
             aggiornaIntervento(view);
             Intent i = new Intent(this, WorkActivity.class);
@@ -419,6 +416,9 @@ public class NewInterventActivity extends ActionBarActivity {
                     if(operazionecorrente == OperazioniCorrenti.CHIAMATECHIUSE){
                         Articolo art = mysql.getArticoli(ID).get(0);
                         Intent i = new Intent(this, AggiungiArticolo.class);
+                        if(operazioneprecedente == OperazioniCorrenti.CHIAMATEAPERTE){
+                            i.putExtra("OPP", "" + operazioneprecedente);
+                        }
                         i.putExtra("OP", "" + OperazioniCorrenti.CHIAMATECHIUSE);
                         i.putExtra("IDIt", "" + art.getIDit());
                         i.putExtra("ID", "" + art.getId());
@@ -430,6 +430,9 @@ public class NewInterventActivity extends ActionBarActivity {
                     // prendo il primo articolo
                     Articolo art = mysql.getArticoli(ID).get(0);
                     Intent i = new Intent(this, AggiungiArticolo.class);
+                    if(operazioneprecedente == OperazioniCorrenti.CHIAMATEAPERTE){
+                        i.putExtra("OPP", "" + operazioneprecedente);
+                    }
                     i.putExtra("OP", "" + OperazioniCorrenti.MODIFICAARTICOLO);
                     i.putExtra("IDIt", "" + art.getIDit());
                     i.putExtra("ID", "" + art.getId());
@@ -509,6 +512,9 @@ public class NewInterventActivity extends ActionBarActivity {
         // invio anche il codice anche se sembra non necessario
         String cod = ((TextView) findViewById(R.id.txtvwClientCod)).getText().toString();
         Intent i = new Intent(this, AddOperation.class);
+        if(operazioneprecedente == OperazioniCorrenti.CHIAMATEAPERTE){
+            i.putExtra("OPP", "" + operazioneprecedente);
+        }
         i.putExtra("OP", "" + operazione);
         i.putExtra("IDIt", "" + ID);
         i.putExtra("RAG", "" + rag);
