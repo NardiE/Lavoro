@@ -426,7 +426,7 @@ public class Upload extends ActionBarActivity {
                     String test = s1.substring(0,3);
                     int i = 0;
                     switch (test){
-                        case "#19": //anagrafica clienti
+                        case "#19": //anagrafica  clienti
                             String codice = s1.substring(3,3 + 15);
                             String codiceHW = s1.substring(18, 18 + 15);
                             String codiceSW = s1.substring(33, 33 + 15);
