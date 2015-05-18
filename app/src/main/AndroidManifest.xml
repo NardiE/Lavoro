@@ -11,7 +11,8 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".MainActivity"
+            android:screenOrientation="portrait"
+            android:name=".Home"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -20,67 +21,77 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".DownloadActivity"
+            android:screenOrientation="portrait"
+            android:name=".Download"
             android:label="@string/title_activity_download"
-            android:parentActivityName=".MainActivity" >
+            android:parentActivityName=".Home" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.edoardo.intrablet.MainActivity" />
+                android:value=".Home" />
         </activity>
         <activity
-            android:name=".UploadActivity"
+            android:screenOrientation="portrait"
+            android:name=".Upload"
             android:label="@string/title_activity_upload"
-            android:parentActivityName=".MainActivity" >
+            android:parentActivityName=".Home" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.edoardo.intrablet.MainActivity" />
+                android:value=".Home" />
         </activity>
         <activity
-            android:name=".WorkActivity"
+            android:screenOrientation="portrait"
+            android:name=".Lavoro"
             android:label="@string/title_activity_work"
-            android:parentActivityName=".MainActivity" >
+            android:parentActivityName=".Home" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.edoardo.intrablet.MainActivity" />
+                android:value=".Home" />
         </activity>
         <activity
-            android:name=".OpenInterventActivity"
+            android:screenOrientation="portrait"
+            android:name=".ElencoInterventi"
             android:label="@string/title_activity_open_intervent"
-            android:parentActivityName=".WorkActivity" >
+            android:parentActivityName=".Lavoro" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.edoardo.intrablet.WorkActivity" />
+                android:value=".Lavoro" />
         </activity>
         <activity
-            android:name=".NewInterventActivity"
+            android:screenOrientation="portrait"
+            android:name=".DettaglioInterventi"
             android:label="@string/title_activity_new_intervent"
-            android:parentActivityName=".WorkActivity" >
+            android:parentActivityName=".Lavoro" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.edoardo.intrablet.WorkActivity" />
+                android:value=".Lavoro" />
         </activity>
         <activity
-            android:name=".NewTransfActivity"
+            android:screenOrientation="portrait"
+            android:name=".ElencoTrasferimenti"
             android:label="@string/title_activity_new_transf"
-            android:parentActivityName=".WorkActivity" >
+            android:parentActivityName=".Lavoro" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.edoardo.intrablet.WorkActivity" />
+                android:value=".Lavoro" />
         </activity>
         <activity
+            android:screenOrientation="portrait"
             android:name=".CercaClienti"
             android:label="@string/title_activity_cerca_clienti" >
         </activity>
         <activity
-            android:name=".AggiungiArticolo"
+            android:screenOrientation="portrait"
+            android:name=".DettaglioArticoli"
             android:label="@string/title_activity_aggiungi_articolo" >
         </activity>
         <activity
-            android:name=".AddOperation"
+            android:screenOrientation="portrait"
+            android:name=".DettaglioOperazioni"
             android:label="@string/title_activity_add_operation" >
         </activity>
         <activity
-            android:name=".Settings"
+            android:screenOrientation="portrait"
+            android:name=".Impostazioni"
             android:label="@string/title_activity_settings" >
         </activity>
     </application>

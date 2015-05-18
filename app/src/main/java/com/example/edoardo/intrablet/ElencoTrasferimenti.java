@@ -1,6 +1,8 @@
 package com.example.edoardo.intrablet;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.ActionBarActivity;
@@ -11,29 +13,26 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Adapter;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
-import android.widget.Switch;
 import android.widget.Toast;
-
 import com.example.edoardo.intrablet.database.MySqlLiteHelper;
 import com.example.edoardo.intrablet.database.OperazioniCorrenti;
 import com.example.edoardo.intrablet.database.SottoIt;
 import com.example.edoardo.intrablet.database.TipiIntervento;
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Objects;
+import java.util.Locale;
 
+@SuppressWarnings("unchecked")
 
-public class NewTransfActivity extends ActionBarActivity {
+public class ElencoTrasferimenti extends ActionBarActivity {
     static final int ADD_OPERATION_REQUEST = 1;
     static final int MODIFY_OPERATION_REQUEST = 2;
+    private int continuareID;
     ArrayList<SottoIt> sottoit;
 
     @Override
@@ -42,10 +41,9 @@ public class NewTransfActivity extends ActionBarActivity {
         setContentView(R.layout.activity_new_transf);
 
         // setto il titolo
-        getActionBar().setTitle("Operazioni");
         getSupportActionBar().setTitle("Operazioni");
 
-        SharedPreferences sharedpreferences = getSharedPreferences(Settings.preferences, Context.MODE_PRIVATE);
+        SharedPreferences sharedpreferences = getSharedPreferences(Impostazioni.preferences, Context.MODE_PRIVATE);
         Button inserisci = (Button)findViewById(R.id.btnAggiungiTransf);        //setto il test HW SW del bottone
         inserisci.setText(inserisci.getText().toString() + " " + sharedpreferences.getString(TipiConfigurazione.tipoInterventi , "") + "W");
 
@@ -77,7 +75,7 @@ public class NewTransfActivity extends ActionBarActivity {
                 }
 
                 String operazionecorrente = "" + OperazioniCorrenti.MODIFICAOPERAZIONE;
-                Intent i = new Intent(getApplicationContext(), AddOperation.class);
+                Intent i = new Intent(getApplicationContext(), DettaglioOperazioni.class);
                 i.putExtra("ID","" + sit.getId());
                 i.putExtra("IDUNIVOCO", "" + sit.getIdUnivoco());
                 i.putExtra("OP",operazionecorrente);
@@ -106,12 +104,12 @@ public class NewTransfActivity extends ActionBarActivity {
 
         for(SottoIt s : sottoit){
             HashMap<String, Object> objectmap = new HashMap<>();
-            String datain = new String();
-            SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+            String datain;
+            SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy", Locale.ITALY);
             datain = sdf.format(s.getDataInizio());
             objectmap.put("DATA", datain);
-            objectmap.put("LUOGO", s.getLuogo());
-            objectmap.put("RAGSOC", s.getRagSocialeCliente());
+            objectmap.put("LUOGO", s.getLuogo().trim());
+            objectmap.put("RAGSOC", s.getRagSocialeCliente().trim());
             objectmap.put("ID", s.getId());
             data.add(objectmap);
         }
@@ -119,15 +117,13 @@ public class NewTransfActivity extends ActionBarActivity {
         String[] from = {"DATA","LUOGO","RAGSOC","ID"};
         int[] to = {R.id.txtvwDataTras, R.id.txtvwLuogoTras , R.id.txtvwRagioneSocialeTras, R.id.txtvwIDTras};
 
-        SimpleAdapter adapter = new SimpleAdapter(
+        return new SimpleAdapter(
                 getApplicationContext(),
                 data,
                 R.layout.elementotrasferimento,
                 from,
                 to
         );
-
-        return adapter;
     }
 
 
@@ -147,7 +143,7 @@ public class NewTransfActivity extends ActionBarActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            Intent i = new Intent(this, Settings.class);
+            Intent i = new Intent(this, Impostazioni.class);
             startActivity(i);
             return true;
         }
@@ -155,18 +151,9 @@ public class NewTransfActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    protected void onActivityResult(int requestcode, int resultcode, Intent data){
-        //PER ADESSO NON SERVE
-        if (requestcode == ADD_OPERATION_REQUEST){
-            if(resultcode == RESULT_OK){
-                // invalido la lista di trasferimenti e la ricarico
-            }
-        }
-    }
-
     public void aggiungiOperazione(View view) {
         String operazionecorrente = "" + OperazioniCorrenti.INSERIMENTOOPERAZIONE;
-        Intent i = new Intent(this, AddOperation.class);
+        Intent i = new Intent(this, DettaglioOperazioni.class);
         i.putExtra("OP",operazionecorrente);
         startActivityForResult(i,ADD_OPERATION_REQUEST);
     }
@@ -189,7 +176,7 @@ public class NewTransfActivity extends ActionBarActivity {
         int menuItemIndex = item.getItemId();
 
 
-        ListView lw = (ListView) findViewById(R.id.lstvwTrasferimenti);
+        ListView lw = (ListView) findViewById(((ListView)info.targetView.getParent()).getId());
         Adapter ad = lw.getAdapter();
         Object item1 = ad.getItem(info.position);
         HashMap<String, Object> transf = (HashMap<String, Object>) item1;
@@ -203,7 +190,7 @@ public class NewTransfActivity extends ActionBarActivity {
                 ArrayList<SottoIt> sint = (ArrayList) mysql.getSottoIntervento(ID);
                 SottoIt sit = sint.get(0);
 
-                String luogo = new String();
+                String luogo = "";
 
                 ArrayList<TipiIntervento> tpit = (ArrayList) mysql.getAllTipoIntervento();
                 for (TipiIntervento t : tpit) {
@@ -213,7 +200,7 @@ public class NewTransfActivity extends ActionBarActivity {
                 }
 
                 String operazionecorrente = "" + OperazioniCorrenti.MODIFICAOPERAZIONE;
-                Intent i = new Intent(getApplicationContext(), AddOperation.class);
+                Intent i = new Intent(getApplicationContext(), DettaglioOperazioni.class);
                 i.putExtra("ID", "" + sit.getId());
                 i.putExtra("IDUNIVOCO", "" + sit.getIdUnivoco());
                 i.putExtra("OP", operazionecorrente);
@@ -221,7 +208,7 @@ public class NewTransfActivity extends ActionBarActivity {
                 i.putExtra("RAGSOCCLIENTE", sit.getRagSocialeCliente());
                 i.putExtra("LUOGO", luogo);
 
-                SimpleDateFormat datore = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+                SimpleDateFormat datore = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.ITALY);
 
                 i.putExtra("DATAINIZIO", datore.format(sit.getDataInizio()));
                 i.putExtra("DATAFINE", datore.format(sit.getDataFine()));
@@ -234,14 +221,30 @@ public class NewTransfActivity extends ActionBarActivity {
 
             case 1:
                 //Elimina
+                continuareID = ID;
                 if(ID < 0){
-                    boolean result = mysql.deleteSottoIntervento(ID);
+                    AlertDialog.Builder builder=new AlertDialog.Builder(this);
+                    builder.setTitle("Avviso");
+                    builder.setMessage("L'Eliminazione è irreversibile, Continuare?");
+                    builder.setCancelable(false);
+                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            MySqlLiteHelper mysql = new MySqlLiteHelper(ElencoTrasferimenti.this);
+                            mysql.deleteSottoIntervento(continuareID);
 
-                    ListAdapter adapter = aggiornaLista(mysql);
+                            ListAdapter adapter = aggiornaLista(mysql);
 
-                    ListView mylist = (ListView)findViewById(R.id.lstvwTrasferimenti);
-                    mylist.setAdapter(adapter);
-                    return result;
+                            ListView mylist = (ListView)findViewById(R.id.lstvwTrasferimenti);
+                            mylist.setAdapter(adapter);
+                            dialog.dismiss();
+                        }
+                    });
+                    builder.setNegativeButton("ANNULLA", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.dismiss();
+                        }
+                    });
+                    builder.create().show();
                 }
                 else{
                     Toast mioToast = Toast.makeText(this,

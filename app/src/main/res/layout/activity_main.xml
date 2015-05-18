@@ -9,7 +9,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/btnDownload"
-        android:background="@drawable/ic_download"
+        android:background="@drawable/ic_allinea_clienti"
         android:onClick="openDownload"
         android:layout_alignParentTop="true"
         android:layout_alignRight="@+id/btnWork"
@@ -39,7 +39,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="@android:style/TextAppearance.Large"
-        android:text="CARICA I DATI SUL TUO TABLET"
+        android:text="ALLINEA I CLIENTI"
         android:textColor="#000000"
         android:textStyle="bold"
         android:layout_marginTop="80dp"/>

@@ -10,7 +10,7 @@ import android.view.View;
 import com.example.edoardo.intrablet.database.OperazioniCorrenti;
 
 
-public class WorkActivity extends ActionBarActivity {
+public class Lavoro extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,7 +18,6 @@ public class WorkActivity extends ActionBarActivity {
         setContentView(R.layout.activity_work);
 
         // setto il titolo
-        getActionBar().setTitle("Menu Principale");
         getSupportActionBar().setTitle("Menu Principale");
     }
 
@@ -39,7 +38,7 @@ public class WorkActivity extends ActionBarActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            Intent i = new Intent(this, Settings.class);
+            Intent i = new Intent(this, Impostazioni.class);
             startActivity(i);
             return true;
         }
@@ -48,24 +47,24 @@ public class WorkActivity extends ActionBarActivity {
     }
 
     public void openCloseIntervent(View view) {
-        Intent i = new Intent(this, OpenInterventActivity.class);
+        Intent i = new Intent(this, ElencoInterventi.class);
         i.putExtra("OP", "" + OperazioniCorrenti.CHIAMATECHIUSE);
         startActivity(i);
     }
 
     public void openNewIntervent(View view) {
-        Intent i = new Intent(this, NewInterventActivity.class);
+        Intent i = new Intent(this, DettaglioInterventi.class);
         i.putExtra("OP", "" + OperazioniCorrenti.INSERISCIINTERVENTO);
         startActivity(i);
     }
 
     public void openNewActivity(View view) {
-        Intent i = new Intent(this, NewTransfActivity.class);
+        Intent i = new Intent(this, ElencoTrasferimenti.class);
         startActivity(i);
     }
 
     public void openOpenActivity(View view) {
-        Intent i = new Intent(this, OpenInterventActivity.class);
+        Intent i = new Intent(this, ElencoInterventi.class);
         i.putExtra("OP", "" + OperazioniCorrenti.CHIAMATEAPERTE);
         startActivity(i);
     }

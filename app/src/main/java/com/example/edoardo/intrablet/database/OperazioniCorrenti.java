@@ -1,8 +1,7 @@
 package com.example.edoardo.intrablet.database;
 
-/**
- * Created by Edoardo on 30/04/2015.
- */
+
+@SuppressWarnings("unused")
 public class OperazioniCorrenti {
     public static int NOOP = -1;
     public static int INSERIMENTOOPERAZIONE = 0;

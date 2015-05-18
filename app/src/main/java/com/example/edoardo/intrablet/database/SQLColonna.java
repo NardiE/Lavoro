@@ -1,10 +1,7 @@
 package com.example.edoardo.intrablet.database;
 
-/**
- * Created by Giacomo on 13/11/2014.
- * If you need some explanation write down a mail to
- * giacomo.maestrelli@gmail.com
- */
+
+@SuppressWarnings("unused")
 public class SQLColonna implements SQLColonnaTabellabile {
 
     private final String _internalRep;

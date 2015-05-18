@@ -115,13 +115,12 @@ public class DBUtility {
         public NOMITABELLE getEnumTabella(){ return nome;}
         public String getNomeTabella(){ return nome.getTableName();}
         public SQLTabella[] getTabella(){
-            NOMITABELLE x;
-            switch (x = this.getEnumTabella()){
-                case INTERVENTI: return (TABINTERVENTI[]) arr;
-                case SOTTOIT: return (TABSOTTOIT[]) arr;
-                case ARTICOLI: return (TABARTICOLI[]) arr;
-                case TIPIINTERVENTO: return (TABTIPIINTERVENTO[]) arr;
-                case CLIENTI: return (TABCLIENTI[]) arr;
+            switch (this.getEnumTabella()){
+                case INTERVENTI: return  arr;
+                case SOTTOIT: return  arr;
+                case ARTICOLI: return  arr;
+                case TIPIINTERVENTO: return arr;
+                case CLIENTI: return  arr;
                 default: return arr;
             }
         }

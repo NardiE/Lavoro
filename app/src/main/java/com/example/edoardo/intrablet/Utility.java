@@ -1,18 +1,16 @@
 package com.example.edoardo.intrablet;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Random;
+import android.app.AlertDialog;
+import android.content.Context;
 
-/**
- * Created by Edoardo on 29/04/2015.
- */
+import java.util.Calendar;
+
 public class Utility {
     public static String idUnivoco(int idTecnico){
         Calendar c = Calendar.getInstance();
-        String result = new String();
+        String result;
         result = "";
-        result = formattaStringa("" + (c.get(Calendar.YEAR) % 100));
+        result += formattaStringa("" + (c.get(Calendar.YEAR) % 100));
         result += formattaStringa("" + c.get(Calendar.MONTH));
         result += formattaStringa("" + c.get(Calendar.DAY_OF_MONTH));
         result += formattaStringa("" + c.get(Calendar.HOUR));
@@ -26,5 +24,15 @@ public class Utility {
     public static String formattaStringa(String s){
         if(s.length() == 1) return 0 + s;
         return s;
+    }
+
+    public static AlertDialog.Builder creaDialogoVeloce(Context c, String message, String title){
+        AlertDialog.Builder dlgAlert  = new AlertDialog.Builder(c);
+
+        dlgAlert.setMessage(message);
+        dlgAlert.setTitle(title);
+        dlgAlert.setPositiveButton("OK", null);
+        dlgAlert.setCancelable(true);
+        return dlgAlert;
     }
 }

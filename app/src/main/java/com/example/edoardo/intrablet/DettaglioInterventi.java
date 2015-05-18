@@ -1,6 +1,8 @@
 package com.example.edoardo.intrablet;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.ActionBarActivity;
@@ -11,39 +13,33 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Adapter;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
-import android.widget.Space;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.edoardo.intrablet.database.Articolo;
 import com.example.edoardo.intrablet.database.Intervento;
 import com.example.edoardo.intrablet.database.MySqlLiteHelper;
 import com.example.edoardo.intrablet.database.OperazioniCorrenti;
 import com.example.edoardo.intrablet.database.SottoIt;
-import com.example.edoardo.intrablet.database.TipiIntervento;
-
-import org.w3c.dom.Text;
-
-import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 
+@SuppressWarnings("unchecked")
 
-public class NewInterventActivity extends ActionBarActivity {
+public class DettaglioInterventi extends ActionBarActivity {
 
     static final int PICK_CLIENT_REQUEST = 1;
     private int operazionecorrente;
     private int operazioneprecedente = OperazioniCorrenti.NOOP;
-    private int idTecnico;
     private int ID;
+    private int continuareID;
     private int chiusa;
     ArrayList<Articolo> articoli;
     ArrayList<SottoIt> operazioni;
@@ -54,13 +50,12 @@ public class NewInterventActivity extends ActionBarActivity {
         setContentView(R.layout.activity_new_intervent);
 
         // setto il titolo
-        getActionBar().setTitle("Intervento");
         getSupportActionBar().setTitle("Intervento");
 
         //Devo distinguere se ho un nuovo intervento oppure se ne sto modificando uno esistente
-        SharedPreferences sharedpreferences = getSharedPreferences(Settings.preferences, Context.MODE_PRIVATE);
+        SharedPreferences sharedpreferences = getSharedPreferences(Impostazioni.preferences, Context.MODE_PRIVATE);
         MySqlLiteHelper mysql = new MySqlLiteHelper(this);
-        SimpleDateFormat sdf= new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        SimpleDateFormat sdf= new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.ITALY);
 
 
         Intent intent = getIntent();
@@ -98,10 +93,10 @@ public class NewInterventActivity extends ActionBarActivity {
 
             if(operazionecorrente == OperazioniCorrenti.CHIAMATECHIUSE){
                 // disabilito bottone cambio cliente, inserimento articolo inserimento operazionetra e cambio il testo di conferma
-                ((Button) findViewById(R.id.btncerca)).setVisibility(View.INVISIBLE);
-                ((Button) findViewById(R.id.btnInserisciArticolo)).setVisibility(View.INVISIBLE);
-                ((Button) findViewById(R.id.btnInserisciOperazionetra)).setVisibility(View.INVISIBLE);
-                ((Button) findViewById(R.id.btnInserisciIntervento)).setText("Annulla Modifiche");
+                (findViewById(R.id.btncerca)).setVisibility(View.INVISIBLE);
+                (findViewById(R.id.btnInserisciArticolo)).setVisibility(View.INVISIBLE);
+                (findViewById(R.id.btnInserisciOperazionetra)).setVisibility(View.INVISIBLE);
+                (findViewById(R.id.btnInserisciIntervento)).setVisibility(View.INVISIBLE);
             }
 
         }
@@ -113,7 +108,7 @@ public class NewInterventActivity extends ActionBarActivity {
         // assegno un ID negativo all' Intervento
         if(operazionecorrente == OperazioniCorrenti.INSERISCIINTERVENTO){
             int minID = 0;
-            idTecnico = Integer.parseInt(sharedpreferences.getString(TipiConfigurazione.idTecnico, ""));
+            int idTecnico = Integer.parseInt(sharedpreferences.getString(TipiConfigurazione.idTecnico, ""));
             ArrayList<Intervento> interventi = mysql.getAllIntervento();
             for(Intervento it: interventi){
                 if(minID > it.getId()){
@@ -125,7 +120,7 @@ public class NewInterventActivity extends ActionBarActivity {
 
             String idUnivoco = Utility.idUnivoco(idTecnico);
             String HWSW = sharedpreferences.getString(TipiConfigurazione.tipoInterventi, "");
-            String numero = "";
+            String numero = "0";
             Date data = new Date();
             Date dataprevista = new Date();
 
@@ -189,7 +184,7 @@ public class NewInterventActivity extends ActionBarActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            Intent i = new Intent(this, Settings.class);
+            Intent i = new Intent(this, Impostazioni.class);
             startActivity(i);
             return true;
         }
@@ -206,25 +201,20 @@ public class NewInterventActivity extends ActionBarActivity {
 
         if (requestCode == PICK_CLIENT_REQUEST) {
             if(resultCode == RESULT_OK){
-                try {
-                    String id = data.getStringExtra("ID");
-                    String nome = data.getStringExtra("NOME");
-                    String cod = data.getStringExtra("CODICE");
-                    ((TextView) findViewById(R.id.txtvwHideClientID)).setText(id);
-                    ((TextView) findViewById(R.id.txtvwClientCod)).setText(cod);
-                    ((TextView) findViewById(R.id.txtvwRagioneSociale)).setText(nome);
-                }catch (Exception e){
-                    e.toString();
-                }
-            }
-            if (resultCode == RESULT_CANCELED) {
+
+                String id = data.getStringExtra("ID");
+                String nome = data.getStringExtra("NOME");
+                String cod = data.getStringExtra("CODICE");
+                ((TextView) findViewById(R.id.txtvwHideClientID)).setText(id);
+                ((TextView) findViewById(R.id.txtvwClientCod)).setText(cod);
+                ((TextView) findViewById(R.id.txtvwRagioneSociale)).setText(nome);
             }
         }
     }
 
     public void insertArticle(View view) {
         aggiornaIntervento(view);
-        Intent i = new Intent(this, AggiungiArticolo.class);
+        Intent i = new Intent(this, DettaglioArticoli.class);
         i.putExtra("IDIt", "" + ID);
         i.putExtra("OP", "" + OperazioniCorrenti.NUOVOARTICOLO);
         if(operazioneprecedente == OperazioniCorrenti.CHIAMATEAPERTE){
@@ -235,6 +225,7 @@ public class NewInterventActivity extends ActionBarActivity {
     }
 
     public void aggiornaIntervento(View view){
+
         MySqlLiteHelper mysql = new MySqlLiteHelper(this);
         Intervento it = mysql.getIntervento(ID).get(0);
         if( it != null) {
@@ -269,18 +260,18 @@ public class NewInterventActivity extends ActionBarActivity {
         // qui devo fare aggiornamento dell' intervento
         if(operazioneprecedente == OperazioniCorrenti.CHIAMATEAPERTE){
             aggiornaIntervento(view);
-            Intent i = new Intent(this, OpenInterventActivity.class);
+            Intent i = new Intent(this, ElencoInterventi.class);
             i.putExtra("OP","" + OperazioniCorrenti.CHIAMATEAPERTE);
             startActivity(i);
             return;
         }
         if(operazionecorrente != OperazioniCorrenti.CHIAMATECHIUSE) {
             aggiornaIntervento(view);
-            Intent i = new Intent(this, WorkActivity.class);
+            Intent i = new Intent(this, Lavoro.class);
             startActivity(i);
             return;
         }
-        Intent i = new Intent(this, OpenInterventActivity.class);
+        Intent i = new Intent(this, ElencoInterventi.class);
         i.putExtra("OP","" + OperazioniCorrenti.CHIAMATECHIUSE);
         startActivity(i);
     }
@@ -290,19 +281,12 @@ public class NewInterventActivity extends ActionBarActivity {
 
         ArrayList<HashMap<String, String>> data = new ArrayList<>();
 
-        HashMap<String, String> objectmaptitle = new HashMap<>();
-        objectmaptitle.put("LUOGO", "TI.");
-        objectmaptitle.put("ID", "ID");
-        objectmaptitle.put("DATA", "DATA");
-        objectmaptitle.put("DATAINIZIO", "INIZIO");
-        objectmaptitle.put("DATAFINE", "FINE");
-        data.add(objectmaptitle);
-        SimpleDateFormat sdfdata = new SimpleDateFormat("dd-MM-yyyy");
-        SimpleDateFormat sdfora = new SimpleDateFormat("HH:mm:ss");
+        SimpleDateFormat sdfdata = new SimpleDateFormat("dd-MM-yyyy", Locale.ITALY);
+        SimpleDateFormat sdfora = new SimpleDateFormat("HH:mm:ss", Locale.ITALY);
 
         for(SottoIt op : operazioni){
             HashMap<String, String> objectmap = new HashMap<>();
-            objectmap.put("LUOGO", "" + op.getLuogo());
+            objectmap.put("LUOGO", "" + op.getLuogo().trim());
             objectmap.put("ID", "" + op.getId());
             objectmap.put("DATA", "" + sdfdata.format(op.getDataInizio()));
             objectmap.put("DATAINIZIO", "" + sdfora.format(op.getDataInizio()));
@@ -313,15 +297,13 @@ public class NewInterventActivity extends ActionBarActivity {
         String[] from = {"LUOGO","ID","DATA","DATAINIZIO","DATAFINE"};
         int[] to = {R.id.elementoOpLuogo, R.id.elementoOpID,R.id.elementoOpData, R.id.elementoOpDataInizio, R.id.elementoOpDataFine};
 
-        SimpleAdapter adapter = new SimpleAdapter(
+        return new SimpleAdapter(
                 getApplicationContext(),
                 data,
                 R.layout.elementooperazioni,
                 from,
                 to
         );
-
-        return adapter;
     }
 
     private ListAdapter aggiornaListaArticoli(MySqlLiteHelper mysql) {
@@ -329,20 +311,12 @@ public class NewInterventActivity extends ActionBarActivity {
 
         ArrayList<HashMap<String, Object>> data = new ArrayList<>();
 
-        HashMap<String, Object> object1map = new HashMap<>();
-        object1map.put("ID", "ID");
-        object1map.put("MATRICOLA", "MAT.");
-        object1map.put("CODICE", "COD.");
-        object1map.put("DESCRIZIONE", "DESCR.");
-        object1map.put("QUANTITA", "QT.");
-        data.add(object1map);
-
         for(Articolo a : articoli){
             HashMap<String, Object> objectmap = new HashMap<>();
             objectmap.put("ID", a.getId());
-            objectmap.put("MATRICOLA", a.getMatricola());
-            objectmap.put("CODICE", a.getCodice());
-            objectmap.put("DESCRIZIONE", a.getDescrizione());
+            objectmap.put("MATRICOLA", a.getMatricola().trim());
+            objectmap.put("CODICE", a.getCodice().trim());
+            objectmap.put("DESCRIZIONE", a.getDescrizione().trim());
             objectmap.put("QUANTITA", a.getQt());
             data.add(objectmap);
         }
@@ -350,15 +324,13 @@ public class NewInterventActivity extends ActionBarActivity {
         String[] from = {"ID","MATRICOLA","CODICE", "DESCRIZIONE", "QUANTITA"};
         int[] to = {R.id.elementoArtID, R.id.elementoArtMatr, R.id.elementoArtCod, R.id.elementoArtDescr, R.id.elementoArtQt};
 
-        SimpleAdapter adapter = new SimpleAdapter(
+        return new SimpleAdapter(
                 getApplicationContext(),
                 data,
                 R.layout.elementoarticolo,
                 from,
                 to
         );
-
-        return adapter;
     }
 
     @Override
@@ -366,9 +338,7 @@ public class NewInterventActivity extends ActionBarActivity {
         //se ho cliccato sulla lista delle operazioni
         if(v.getId() == R.id.lstvwOperazioniint){
             AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
-            if(info.position == 0) return;
-            // il primo elemento è la descrizione
-            menu.setHeaderTitle(operazioni.get(info.position - 1).getId() + "");
+            menu.setHeaderTitle(operazioni.get(info.position).getId() + "");
             String[] menuitems = getResources().getStringArray(R.array.menu);
             for(int i = 0; i< menuitems.length; i++){
                 menu.add(Menu.NONE, i, i, menuitems[i]);
@@ -377,9 +347,7 @@ public class NewInterventActivity extends ActionBarActivity {
 
         if(v.getId() == R.id.lstvwArticoli){
             AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
-            if(info.position == 0) return;
-            // il primo elemento è la descrizione
-            menu.setHeaderTitle(articoli.get(info.position - 1).getDescrizione() + "");
+            menu.setHeaderTitle(articoli.get(info.position).getDescrizione() + "");
             String[] menuitems = getResources().getStringArray(R.array.menu);
             for(int i = 0; i< menuitems.length; i++){
                 menu.add(Menu.NONE, i, i, menuitems[i]);
@@ -412,10 +380,12 @@ public class NewInterventActivity extends ActionBarActivity {
         switch(menuItemIndex) {
             case 0:
                 //Modifica
+                aggiornaIntervento(lw.getRootView());
+
                 if(lw.getId() == R.id.lstvwArticoli) {
                     if(operazionecorrente == OperazioniCorrenti.CHIAMATECHIUSE){
                         Articolo art = mysql.getArticoli(ID).get(0);
-                        Intent i = new Intent(this, AggiungiArticolo.class);
+                        Intent i = new Intent(this, DettaglioArticoli.class);
                         if(operazioneprecedente == OperazioniCorrenti.CHIAMATEAPERTE){
                             i.putExtra("OPP", "" + operazioneprecedente);
                         }
@@ -426,10 +396,9 @@ public class NewInterventActivity extends ActionBarActivity {
                         return true;
                     }
 
-                    aggiornaIntervento(lw.getRootView());
                     // prendo il primo articolo
                     Articolo art = mysql.getArticoli(ID).get(0);
-                    Intent i = new Intent(this, AggiungiArticolo.class);
+                    Intent i = new Intent(this, DettaglioArticoli.class);
                     if(operazioneprecedente == OperazioniCorrenti.CHIAMATEAPERTE){
                         i.putExtra("OPP", "" + operazioneprecedente);
                     }
@@ -442,7 +411,7 @@ public class NewInterventActivity extends ActionBarActivity {
                 if(lw.getId() == R.id.lstvwOperazioniint){
                     if(operazionecorrente == OperazioniCorrenti.CHIAMATECHIUSE){
                         SottoIt st = mysql.getSottoIntervento(ID).get(0);
-                        Intent i = new Intent(this, AddOperation.class);
+                        Intent i = new Intent(this, DettaglioOperazioni.class);
                         i.putExtra("OP", "" + OperazioniCorrenti.CHIAMATECHIUSE);
                         i.putExtra("IDIt", "" + st.getIdit());
                         i.putExtra("ID", "" + st.getId());
@@ -450,10 +419,11 @@ public class NewInterventActivity extends ActionBarActivity {
                         return true;
                     }
 
-                    aggiornaIntervento(lw.getRootView());
                     SottoIt st = mysql.getSottoIntervento(ID).get(0);
-                    Intent i = new Intent(this, AddOperation.class);
+                    Intent i = new Intent(this, DettaglioOperazioni.class);
                     i.putExtra("OP", "" + OperazioniCorrenti.MODIFICAOPERAZIONEINTERVENTO);
+                    i.putExtra("CODICECLIENTE", "" + ((TextView) findViewById(R.id.txtvwClientCod)).getText().toString());
+                    i.putExtra("RAGSOCCLIENTE", "" + ((TextView) findViewById(R.id.txtvwRagioneSociale)).getText().toString());
                     i.putExtra("IDIt", "" + st.getIdit());
                     i.putExtra("ID", "" + st.getId());
                     startActivity(i);
@@ -462,15 +432,32 @@ public class NewInterventActivity extends ActionBarActivity {
 
             case 1:
                 //Elimina
+                continuareID = ID;
                 if(lw.getId() == R.id.lstvwOperazioniint){
                     if (ID < 0) {
-                        boolean result = mysql.deleteOperazione(ID);
+                        AlertDialog.Builder builder=new AlertDialog.Builder(this);
+                        builder.setTitle("Avviso");
+                        builder.setMessage("L'Eliminazione è irreversibile, Continuare?");
+                        builder.setCancelable(false);
+                        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                MySqlLiteHelper mysql = new MySqlLiteHelper(DettaglioInterventi.this);
+                                boolean result = mysql.deleteOperazione(continuareID);
 
-                        ListAdapter adapter = aggiornaListaOperazioni(mysql);
+                                ListAdapter adapter = aggiornaListaOperazioni(mysql);
 
-                        ListView mylist = (ListView) findViewById(R.id.lstvwOperazioniint);
-                        mylist.setAdapter(adapter);
-                        return result;
+                                ListView mylist = (ListView) findViewById(R.id.lstvwOperazioniint);
+                                mylist.setAdapter(adapter);
+
+                                dialog.dismiss();
+                            }
+                        });
+                        builder.setNegativeButton("ANNULLA", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.dismiss();
+                            }
+                        });
+                        builder.create().show();
                     } else {
                         Toast mioToast = Toast.makeText(this,
                                 "Non è possibile eliminare un Operazione non aggiunta da palmare",
@@ -482,13 +469,29 @@ public class NewInterventActivity extends ActionBarActivity {
                 }
                 if(lw.getId() == R.id.lstvwArticoli){
                     if (ID < 0) {
-                        boolean result = mysql.deleteArticolo(ID);
+                        AlertDialog.Builder builder=new AlertDialog.Builder(this);
+                        builder.setTitle("Avviso");
+                        builder.setMessage("L'Eliminazione è irreversibile, Continuare?");
+                        builder.setCancelable(false);
+                        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                MySqlLiteHelper mysql = new MySqlLiteHelper(DettaglioInterventi.this);
+                                boolean result = mysql.deleteArticolo(continuareID);
 
-                        ListAdapter adapter = aggiornaListaArticoli(mysql);
+                                ListAdapter adapter = aggiornaListaArticoli(mysql);
 
-                        ListView mylist = (ListView) findViewById(R.id.lstvwArticoli);
-                        mylist.setAdapter(adapter);
-                        return result;
+                                ListView mylist = (ListView) findViewById(R.id.lstvwArticoli);
+                                mylist.setAdapter(adapter);
+
+                                dialog.dismiss();
+                            }
+                        });
+                        builder.setNegativeButton("ANNULLA", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.dismiss();
+                            }
+                        });
+                        builder.create().show();
                     } else {
                         Toast mioToast = Toast.makeText(this,
                                 "Non è possibile eliminare un Articolo non aggiunto da palmare",
@@ -511,7 +514,7 @@ public class NewInterventActivity extends ActionBarActivity {
         String rag = ((TextView) findViewById(R.id.txtvwRagioneSociale)).getText().toString();
         // invio anche il codice anche se sembra non necessario
         String cod = ((TextView) findViewById(R.id.txtvwClientCod)).getText().toString();
-        Intent i = new Intent(this, AddOperation.class);
+        Intent i = new Intent(this, DettaglioOperazioni.class);
         if(operazioneprecedente == OperazioniCorrenti.CHIAMATEAPERTE){
             i.putExtra("OPP", "" + operazioneprecedente);
         }
@@ -520,5 +523,29 @@ public class NewInterventActivity extends ActionBarActivity {
         i.putExtra("RAG", "" + rag);
         i.putExtra("COD", "" + cod);
         startActivity(i);
+    }
+
+    public void annullaIntervento(View view) {
+        if(operazioneprecedente == OperazioniCorrenti.CHIAMATEAPERTE){
+            Intent i = new Intent(this, ElencoInterventi.class);
+            i.putExtra("OP","" + OperazioniCorrenti.CHIAMATEAPERTE);
+            startActivity(i);
+            return;
+        }
+        if(operazionecorrente != OperazioniCorrenti.CHIAMATECHIUSE) {
+            Intent i = new Intent(this, Lavoro.class);
+            //TODO Implementare eliminazione devo eliminare intervento e tutti gli articoli a lui assegnati
+            MySqlLiteHelper mysql = new MySqlLiteHelper(this);
+            mysql.deleteIntervento(ID);
+            mysql.deleteArticoli(ID);
+            mysql.deleteOperazioni(ID);
+            startActivity(i);
+            return;
+        }else {
+            Intent i = new Intent(this, ElencoInterventi.class);
+            i.putExtra("OP", "" + OperazioniCorrenti.CHIAMATECHIUSE);
+            startActivity(i);
+            return;
+        }
     }
 }

@@ -1,12 +1,10 @@
 package com.example.edoardo.intrablet.database;
 
-import android.content.ContentValues;
 
 import org.json.JSONObject;
 
-/**
- * Created by Giacomo on 10/11/2014.
- */
+@SuppressWarnings("unused")
+
 public class Articolo {
 /*fixme problema singolare/plurale*/
     /***

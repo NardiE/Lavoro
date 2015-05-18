@@ -1,22 +1,21 @@
 package com.example.edoardo.intrablet.database;
-
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.widget.ListView;
-
-import com.example.edoardo.intrablet.status.Stato;
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Helper per interagire con Database Palmari.
  */
+
+@SuppressWarnings("unused")
+
 public class MySqlLiteHelper extends SQLiteOpenHelper {
 
     public MySqlLiteHelper(Context context) {
@@ -84,13 +83,34 @@ public class MySqlLiteHelper extends SQLiteOpenHelper {
         /*END ADD*/
 
         /*START GET*/
+
+    public ArrayList<Cliente> getClienti(String contains){
+
+        ArrayList<Cliente> clienti = new ArrayList<>();
+
+        String selectQuery = "SELECT  * FROM " + DBUtility.BIJECTIONTABNAME.CLIENTI.getNomeTabella()+ " WHERE RAGIONESOCIALE LIKE '%" + contains + "%'" ;
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                Cliente contact = new Cliente(cursor.getInt(0), cursor.getString(1),cursor.getString(2),cursor.getString(3), cursor.getString(4), cursor.getInt(5));
+                // Adding contact to list
+                clienti.add(contact);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return clienti;
+    }
+
     public ArrayList<SottoIt> getOperazioni(Integer IDIt){
         ArrayList<SottoIt> operazioniperintervento = new ArrayList<>();
 
         String selectQuery = "SELECT  * FROM " + DBUtility.BIJECTIONTABNAME.SOTTOIT.getNomeTabella() + " WHERE IDit = " + IDIt;
 
         SQLiteDatabase db = this.getWritableDatabase();
-        SimpleDateFormat sdf= new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        SimpleDateFormat sdf= new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.ITALY);
         Cursor cursor;
         cursor = db.rawQuery(selectQuery, null);
         if (cursor.moveToFirst()) {
@@ -112,6 +132,7 @@ public class MySqlLiteHelper extends SQLiteOpenHelper {
                 operazioniperintervento.add(st);
             } while (cursor.moveToNext());
         }
+        cursor.close();
         return operazioniperintervento;
     }
 
@@ -134,6 +155,7 @@ public class MySqlLiteHelper extends SQLiteOpenHelper {
                 articoliperintervento.add(art);
             } while (cursor.moveToNext());
         }
+        cursor.close();
         return articoliperintervento;
     }
 
@@ -145,20 +167,23 @@ public class MySqlLiteHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor;
         cursor = db.rawQuery(selectQuery, null);
-        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.ITALY);
         if (cursor.moveToFirst()) {
-            Intervento it;
-            Date data = new Date();
-            Date dataprevista = new Date();
-            try {
-                data = sdf.parse(cursor.getString(4));
-                dataprevista = sdf.parse(cursor.getString(5));
-            } catch (Exception e) {
-                e.toString();
-            }
-            it = new Intervento(cursor.getInt(0), cursor.getInt(1), cursor.getString(2), cursor.getString(3), data, dataprevista, cursor.getInt(6), cursor.getString(7), cursor.getString(8), cursor.getString(9), cursor.getString(10), cursor.getString(11), cursor.getString(12), cursor.getString(13), cursor.getString(14), cursor.getInt(15), cursor.getInt(16), cursor.getString(17));
-            chiamatechiuse.add(it);
+            do {
+                Intervento it;
+                Date data;
+                Date dataprevista;
+                try {
+                    data = sdf.parse(cursor.getString(4));
+                    dataprevista = sdf.parse(cursor.getString(5));
+                } catch (Exception e) {
+                    throw new NullPointerException();
+                }
+                it = new Intervento(cursor.getInt(0), cursor.getInt(1), cursor.getString(2), cursor.getString(3), data, dataprevista, cursor.getInt(6), cursor.getString(7), cursor.getString(8), cursor.getString(9), cursor.getString(10), cursor.getString(11), cursor.getString(12), cursor.getString(13), cursor.getString(14), cursor.getInt(15), cursor.getInt(16), cursor.getString(17));
+                chiamatechiuse.add(it);
+            }while (cursor.moveToNext());
         }
+        cursor.close();
         return chiamatechiuse;
     }
 
@@ -170,26 +195,27 @@ public class MySqlLiteHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor;
         cursor = db.rawQuery(selectQuery, null);
-        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.ITALY);
         if (cursor.moveToFirst()) {
            do{
                 Intervento it;
-                Date data = new Date();
-                Date dataprevista = new Date();
+                Date data;
+                Date dataprevista;
                 try {
                     data = sdf.parse(cursor.getString(4));
                     dataprevista = sdf.parse(cursor.getString(5));
                 } catch (Exception e) {
-                    e.toString();
+                    throw new NullPointerException();
                 }
                 it = new Intervento(cursor.getInt(0), cursor.getInt(1), cursor.getString(2), cursor.getString(3), data, dataprevista, cursor.getInt(6), cursor.getString(7), cursor.getString(8), cursor.getString(9), cursor.getString(10), cursor.getString(11), cursor.getString(12), cursor.getString(13), cursor.getString(14), cursor.getInt(15), cursor.getInt(16), cursor.getString(17));
                 chiamateaperte.add(it);
             } while (cursor.moveToNext());
-        } while (cursor.moveToNext());
+        }
+        cursor.close();
         return chiamateaperte;
     }
 
-    public ArrayList<Articolo> getArticoli(Integer ID){
+    public ArrayList<Articolo> getArticoli(Integer ID) throws NullPointerException{
         ArrayList<Articolo> articoliperintervento = new ArrayList<>();
 
         String selectQuery = "SELECT  * FROM " + DBUtility.BIJECTIONTABNAME.ARTICOLI.getNomeTabella() + " WHERE ID = " + ID;
@@ -202,15 +228,15 @@ public class MySqlLiteHelper extends SQLiteOpenHelper {
                 Articolo art;
                 try{art = new Articolo(cursor.getInt(0), cursor.getInt(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getString(7), cursor.getFloat(8), cursor.getInt(9), cursor.getInt(10), cursor.getString(11));}
                 catch(Exception e){
-                    e.printStackTrace();
-                    return null;}
+                    throw new NullPointerException();}
                 articoliperintervento.add(art);
             } while (cursor.moveToNext());
         }
+        cursor.close();
         return articoliperintervento;
     }
 
-    public Cliente getCliente(int _id, int ID){
+    public Cliente getCliente(int _id, int ID) throws NullPointerException{
 
         SQLiteDatabase db = this.getReadableDatabase();
 
@@ -222,11 +248,13 @@ public class MySqlLiteHelper extends SQLiteOpenHelper {
                 null, null, null, null
         );
 
-        if (cursor != null)
+        Cliente contact = null;
+
+        if (cursor != null) {
             cursor.moveToFirst();
-
-        Cliente contact = new Cliente(_id, cursor.getString(1),cursor.getString(2),cursor.getString(3), cursor.getString(4), cursor.getInt(0));
-
+            contact  = new Cliente(_id, cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getInt(0));
+            cursor.close();
+        }
         return contact;
 
     }
@@ -236,20 +264,21 @@ public class MySqlLiteHelper extends SQLiteOpenHelper {
 
         String selectQuery = "SELECT  * FROM " + DBUtility.BIJECTIONTABNAME.INTERVENTI.getNomeTabella() + " WHERE ID = " + ID;SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
-        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.ITALY);
         if (cursor.moveToFirst()) {
             Intervento it;
-            Date data = new Date();
-            Date dataprevista = new Date();
+            Date data;
+            Date dataprevista;
             try {
                 data = sdf.parse(cursor.getString(4));
                 dataprevista = sdf.parse(cursor.getString(5));
             } catch (Exception e) {
-                e.toString();
+                return null;
             }
             it = new Intervento(cursor.getInt(0), cursor.getInt(1), cursor.getString(2), cursor.getString(3), data, dataprevista, cursor.getInt(6), cursor.getString(7), cursor.getString(8), cursor.getString(9), cursor.getString(10), cursor.getString(11), cursor.getString(12), cursor.getString(13), cursor.getString(14), cursor.getInt(15), cursor.getInt(16), cursor.getString(17));
             interventi.add(it);
         }
+        cursor.close();
         return interventi;
 
     }
@@ -261,22 +290,25 @@ public class MySqlLiteHelper extends SQLiteOpenHelper {
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
-        SimpleDateFormat sdf= new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        SimpleDateFormat sdf= new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.ITALY);
         if (cursor.moveToFirst()) {
             SottoIt st;
             do {
-                Date datain = new Date();
-                Date datafin = new Date();
+                Date datain;
+                Date datafin;
                 try{
                     datain = sdf.parse(cursor.getString(7));
                     datafin = sdf.parse(cursor.getString(8));
-                }catch(Exception e){e.toString();}
+                }catch(Exception e){
+                    return null;
+                }
                 st = new SottoIt(cursor.getInt(0),cursor.getInt(1),cursor.getString(2),cursor.getInt(3),cursor.getInt(4),cursor.getString(5),cursor.getString(6),datain, datafin,cursor.getString(9),cursor.getString(10),cursor.getInt(11),cursor.getInt(12),cursor.getInt(13),cursor.getInt(14),cursor.getString(15),cursor.getString(16));
 
                 // Adding contact to list
                 sint.add(st);
             } while (cursor.moveToNext());
         }
+        cursor.close();
         return sint;
 
     }
@@ -288,32 +320,35 @@ public class MySqlLiteHelper extends SQLiteOpenHelper {
 
         /*START GETALL*/
     public ArrayList<SottoIt> getAllOperazioni(){
-        ArrayList<SottoIt> sottoit = new ArrayList<SottoIt>();
+        ArrayList<SottoIt> sottoit = new ArrayList<>();
 
         String selectQuery = "SELECT  * FROM " + DBUtility.BIJECTIONTABNAME.SOTTOIT.getNomeTabella() + " WHERE IDIT = 0";
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
-        SimpleDateFormat sdf= new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        SimpleDateFormat sdf= new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.ITALY);
 
         if (cursor.moveToFirst()) {
             do {
-                Date datain = new Date();
-                Date datafin = new Date();
+                Date datain;
+                Date datafin;
                 try{
                     datain = sdf.parse(cursor.getString(7));
                     datafin = sdf.parse(cursor.getString(8));
-                }catch(Exception e){e.toString();}
+                }catch(Exception e){
+                    return null;
+                }
                 SottoIt st = new SottoIt(cursor.getInt(0),cursor.getInt(1),cursor.getString(2),cursor.getInt(3),cursor.getInt(4),cursor.getString(5),cursor.getString(6),datain, datafin,cursor.getString(9),cursor.getString(10),cursor.getInt(11),cursor.getInt(12),cursor.getInt(13),cursor.getInt(14),cursor.getString(15),cursor.getString(16));
                 // Adding contact to list
                 sottoit.add(st);
             } while (cursor.moveToNext());
         }
+        cursor.close();
         return sottoit;
     }
 
     public ArrayList<Articolo> getAllArticolo(){
-        ArrayList<Articolo> articoli = new ArrayList<Articolo>();
+        ArrayList<Articolo> articoli = new ArrayList<>();
 
         String selectQuery = "SELECT  * FROM " + DBUtility.BIJECTIONTABNAME.ARTICOLI.getNomeTabella();
 
@@ -327,12 +362,13 @@ public class MySqlLiteHelper extends SQLiteOpenHelper {
                 articoli.add(art);
             } while (cursor.moveToNext());
         }
+        cursor.close();
         return articoli;
     }
 
     public List<Cliente> getAllCliente(){
 
-        ArrayList<Cliente> clienti = new ArrayList<Cliente>();
+        ArrayList<Cliente> clienti = new ArrayList<>();
 
         String selectQuery = "SELECT  * FROM " + DBUtility.BIJECTIONTABNAME.CLIENTI.getNomeTabella();
 
@@ -346,6 +382,7 @@ public class MySqlLiteHelper extends SQLiteOpenHelper {
                 clienti.add(contact);
             } while (cursor.moveToNext());
         }
+        cursor.close();
         return clienti;
     }
 
@@ -355,18 +392,18 @@ public class MySqlLiteHelper extends SQLiteOpenHelper {
         String selectQuery = "SELECT * FROM " + DBUtility.BIJECTIONTABNAME.INTERVENTI.getNomeTabella();
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
-        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.ITALY);
         if (cursor.moveToFirst()) {
             Intervento it;
-            Date data = new Date();
-            Date dataprevista = new Date();
+            Date data;
+            Date dataprevista;
             do {
 
                 try {
                     data = sdf.parse(cursor.getString(4));
                     dataprevista = sdf.parse(cursor.getString(5));
                 } catch (Exception e) {
-                    e.toString();
+                    return null;
                 }
 
                 it = new Intervento(cursor.getInt(0), cursor.getInt(1), cursor.getString(2), cursor.getString(3), data, dataprevista, cursor.getInt(6), cursor.getString(7), cursor.getString(8), cursor.getString(9), cursor.getString(10), cursor.getString(11), cursor.getString(12), cursor.getString(13), cursor.getString(14), cursor.getInt(15), cursor.getInt(16), cursor.getString(17));
@@ -388,12 +425,14 @@ public class MySqlLiteHelper extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             SottoIt st;
             do {
-                Date datain = new Date();
-                Date datafin = new Date();
+                Date datain;
+                Date datafin;
                 try{
                     datain = sdf.parse(cursor.getString(7));
                     datafin = sdf.parse(cursor.getString(8));
-                }catch(Exception e){e.toString();}
+                }catch(Exception e){
+                    return null;
+                }
                 st = new SottoIt(cursor.getInt(0),cursor.getInt(1),cursor.getString(2),cursor.getInt(3),cursor.getInt(4),cursor.getString(5),cursor.getString(6),datain, datafin,cursor.getString(9),cursor.getString(10),cursor.getInt(11),cursor.getInt(12),cursor.getInt(13),cursor.getInt(14),cursor.getString(15),cursor.getString(16));
 
                 // Adding contact to list
@@ -479,33 +518,47 @@ public class MySqlLiteHelper extends SQLiteOpenHelper {
         db.delete(DBUtility.BIJECTIONTABNAME.SOTTOIT.getNomeTabella(),null,null);
         db.close();
     }
+
+    public void deleteAllArticoli(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(DBUtility.BIJECTIONTABNAME.ARTICOLI.getNomeTabella(),null,null);
+        db.close();
+    }
         /*END DELETE ALL* */
         /*START DELETE ALL*/
     public boolean deleteArticolo(Integer ID){
         SQLiteDatabase db = this.getWritableDatabase();
         int res = db.delete(DBUtility.BIJECTIONTABNAME.ARTICOLI.getNomeTabella(),"ID = " + ID,null);
         db.close();
-        if(res == 0){
-            return false;
-        }else return true;
+        return res != 0;
     }
 
-    public boolean deleteIntervento(Integer ID) {
+    public boolean deleteArticoli(Integer IDIt){
+        SQLiteDatabase db = this.getWritableDatabase();
+        int res = db.delete(DBUtility.BIJECTIONTABNAME.ARTICOLI.getNomeTabella(),"IDIT = " + IDIt,null);
+        db.close();
+        return res != 0;
+    }
+
+   public boolean deleteIntervento(Integer ID) {
         SQLiteDatabase db = this.getWritableDatabase();
         int res = db.delete(DBUtility.BIJECTIONTABNAME.INTERVENTI.getNomeTabella(), "ID = " + ID, null);
         db.close();
-        if (res == 0) {
-            return false;
-        } else return true;
+        return res != 0;
     }
 
     public boolean deleteOperazione(Integer ID){
         SQLiteDatabase db = this.getWritableDatabase();
         int res = db.delete(DBUtility.BIJECTIONTABNAME.SOTTOIT.getNomeTabella(),"ID = " + ID,null);
         db.close();
-        if(res == 0){
-            return false;
-        }else return true;
+        return res != 0;
+    }
+
+    public boolean deleteOperazioni(Integer IDIt){
+        SQLiteDatabase db = this.getWritableDatabase();
+        int res = db.delete(DBUtility.BIJECTIONTABNAME.SOTTOIT.getNomeTabella(),"IDIT = " + IDIt,null);
+        db.close();
+        return res != 0;
     }
 
     public void deleteCliente(Cliente obj){}
@@ -518,9 +571,7 @@ public class MySqlLiteHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         int res = db.delete(DBUtility.BIJECTIONTABNAME.SOTTOIT.getNomeTabella(),"ID = " + ID,null);
         db.close();
-        if(res == 0){
-            return false;
-        }else return true;
+        return res != 0;
     }
 
     public void deleteTipoIntervento(TipiIntervento obj){}

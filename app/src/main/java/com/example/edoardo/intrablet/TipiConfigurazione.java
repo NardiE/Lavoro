@@ -1,8 +1,5 @@
 package com.example.edoardo.intrablet;
 
-/**
- * Created by Edoardo on 01/05/2015.
- */
 public class TipiConfigurazione {
     public static String tipoInterventi = "TIPO INTERVENTI";
     public static String idTecnico = "ID TECNICO";

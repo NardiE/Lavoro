@@ -4,13 +4,8 @@ import org.json.JSONObject;
 
 import java.io.Serializable;
 
-/**
- * Created by Giacomo on 10/11/2014.
- * If you need some explanation write down a mail to
- * giacomo.maestrelli@gmail.com
- *
- *
- */
+@SuppressWarnings("unused")
+
 public class Cliente implements Serializable{
     /*fixme problema singolare/plurale*/
     /***

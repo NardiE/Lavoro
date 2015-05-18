@@ -1,10 +1,8 @@
 package com.example.edoardo.intrablet.database;
 
-/**
- * Created by Giacomo on 13/11/2014.
- * If you need some explanation write down a mail to
- * giacomo.maestrelli@gmail.com
- */
+
+@SuppressWarnings("unused")
+
 public interface SQLColonnaTabellabile {
 
     /**if projection in select use this before query to set data. MUST REFLECT ORDER IN QUERY AND SETTED EveryTIME */

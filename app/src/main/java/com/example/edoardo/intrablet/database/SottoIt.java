@@ -4,11 +4,8 @@ import org.json.JSONObject;
 
 import java.util.Date;
 
-/**
- * Created by Giacomo on 10/11/2014.
- * If you need some explanation write down a mail to
- * giacomo.maestrelli@gmail.com
- */
+
+@SuppressWarnings("unused")
 public class SottoIt {
     /***
      * Necessario per lavorare con i cursori Android

@@ -2,11 +2,8 @@ package com.example.edoardo.intrablet.database;
 
 import org.json.JSONObject;
 
-/**
- * Created by Giacomo on 10/11/2014.
- * If you need some explanation write down a mail to
- * giacomo.maestrelli@gmail.com
- */
+@SuppressWarnings("unused")
+
 public class TipiIntervento {
     /***
      * Necessario per lavorare con i cursori Android

@@ -1,5 +1,6 @@
 package com.example.edoardo.intrablet;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -10,27 +11,25 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
-
-import com.example.edoardo.intrablet.database.Intervento;
 import com.example.edoardo.intrablet.database.MySqlLiteHelper;
 import com.example.edoardo.intrablet.database.OperazioniCorrenti;
 import com.example.edoardo.intrablet.database.SottoIt;
 import com.example.edoardo.intrablet.database.TipiIntervento;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.TimeZone;
 
+@SuppressWarnings("unchecked")
 
-public class AddOperation extends ActionBarActivity {
+public class DettaglioOperazioni extends ActionBarActivity {
 
     static int operazionecorrente;
     static int operazioneprecedente = OperazioniCorrenti.NOOP;
@@ -38,7 +37,7 @@ public class AddOperation extends ActionBarActivity {
     private int IDIt;
     static int ID;
     static String IDUNIVOCO;
-    static String HwSw = new String();
+    static String HwSw;
     private static int PICK_CLIENT_REQUEST = 1;
     HashMap<String,Integer> tipiaddebitabili = new HashMap<>();
 
@@ -48,11 +47,10 @@ public class AddOperation extends ActionBarActivity {
         setContentView(R.layout.activity_add_operation);
 
         // setto il titolo
-        getActionBar().setTitle("Operazione");
         getSupportActionBar().setTitle("Operazione");
 
 
-        SharedPreferences sharedpreferences = getSharedPreferences(Settings.preferences, Context.MODE_PRIVATE);
+        SharedPreferences sharedpreferences = getSharedPreferences(Impostazioni.preferences, Context.MODE_PRIVATE);
         MySqlLiteHelper mysql = new MySqlLiteHelper(this);
 
         Intent intent = getIntent();
@@ -76,14 +74,14 @@ public class AddOperation extends ActionBarActivity {
             descrizioni.add(t.getCodice() + " " + t.getDescrizione());
         }
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, descrizioni);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item, descrizioni);
 
         Spinner myspinner = (Spinner)findViewById(R.id.spinnerTipo);
         myspinner.setAdapter(adapter);
 
         // carico la form con la data
-        SimpleDateFormat sdfdata = new SimpleDateFormat("dd-MM-yyyy");
-        SimpleDateFormat sdfora = new SimpleDateFormat("HH:mm:ss");
+        SimpleDateFormat sdfdata = new SimpleDateFormat("dd-MM-yyyy", Locale.ITALY);
+        SimpleDateFormat sdfora = new SimpleDateFormat("HH:mm:ss", Locale.ITALY);
         sdfora.setTimeZone(TimeZone.getDefault());
         ((TextView) findViewById(R.id.edttxtData)).setText(sdfdata.format(new Date()));
         ((TextView) findViewById(R.id.edttxtOraDa)).setText(sdfora.format(new Date()));
@@ -95,7 +93,7 @@ public class AddOperation extends ActionBarActivity {
             ((TextView) findViewById(R.id.txtvwCodiceao)).setText(intent.getStringExtra("COD"));
             ((TextView) findViewById(R.id.txtvwNomeClienteao)).setText(intent.getStringExtra("RAG"));
             IDIt = Integer.parseInt(intent.getStringExtra("IDIt"));
-            ((Button) findViewById(R.id.btnCambiaCliente)).setVisibility(View.INVISIBLE);
+            (findViewById(R.id.btnCambiaCliente)).setVisibility(View.INVISIBLE);
         }
 
         // se modifico un operazione legata ad un intervento
@@ -106,13 +104,22 @@ public class AddOperation extends ActionBarActivity {
             SottoIt operazione = mysql.getSottoIntervento(ID).get(0);
 
             IDUNIVOCO = operazione.getIdUnivoco();
-            ((TextView) findViewById(R.id.txtvwCodiceao)).setText(operazione.getCodiceCliente());
-            ((TextView) findViewById(R.id.txtvwNomeClienteao)).setText(operazione.getRagSocialeCliente());
+            // per i clienti se ho un intervento prendo il codice e la ragione sociale del cliente per adesso solo rag. sociale
+
+            /*String cod = intent.getStringExtra("CODICECLIENTE");
+            if(cod != null && !cod.equals(""))
+                ((TextView) findViewById(R.id.txtvwCodiceao)).setText(cod);
+            else ((TextView) findViewById(R.id.txtvwCodiceao)).setText(operazione.getCodiceCliente());*/
+
+            if(intent.getStringExtra("RAGSOCCLIENTE")!= null && !intent.getStringExtra("RAGSOCCLIENTE").equals(""))
+                ((TextView) findViewById(R.id.txtvwNomeClienteao)).setText(intent.getStringExtra("RAGSOCCLIENTE"));
+            else
+                ((TextView) findViewById(R.id.txtvwNomeClienteao)).setText(operazione.getRagSocialeCliente());
+
             myspinner.setSelection(((ArrayAdapter) myspinner.getAdapter()).getPosition(operazione.getLuogo()));
 
-            SimpleDateFormat dataore = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-            SimpleDateFormat data = new SimpleDateFormat("dd-MM-yyyy");
-            SimpleDateFormat ore = new SimpleDateFormat("HH:mm:ss");
+            SimpleDateFormat data = new SimpleDateFormat("dd-MM-yyyy", Locale.ITALY);
+            SimpleDateFormat ore = new SimpleDateFormat("HH:mm:ss", Locale.ITALY);
 
 
             ((TextView) findViewById(R.id.edttxtData)).setText(data.format(operazione.getDataInizio()));
@@ -134,8 +141,8 @@ public class AddOperation extends ActionBarActivity {
         }
         if(operazionecorrente == OperazioniCorrenti.CHIAMATECHIUSE){
             IDIt = Integer.parseInt(intent.getStringExtra("IDIt"));
-            ((Button) findViewById(R.id.btnCambiaCliente)).setVisibility(View.INVISIBLE);
-            ((Button) findViewById(R.id.btnRegistra)).setVisibility(View.INVISIBLE);
+            (findViewById(R.id.btnCambiaCliente)).setVisibility(View.INVISIBLE);
+            (findViewById(R.id.btnRegistra)).setVisibility(View.INVISIBLE);
         }
 
         // se modifico un operazione devo sovrascrivere i campi di default
@@ -147,9 +154,9 @@ public class AddOperation extends ActionBarActivity {
             ((TextView) findViewById(R.id.txtvwNomeClienteao)).setText(intent.getStringExtra("RAGSOCCLIENTE"));
             myspinner.setSelection(((ArrayAdapter) myspinner.getAdapter()).getPosition(intent.getStringExtra("LUOGO")));
 
-            SimpleDateFormat dataore = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-            SimpleDateFormat data = new SimpleDateFormat("dd-MM-yyyy");
-            SimpleDateFormat ore = new SimpleDateFormat("HH:mm:ss");
+            SimpleDateFormat dataore = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.ITALY);
+            SimpleDateFormat data = new SimpleDateFormat("dd-MM-yyyy", Locale.ITALY);
+            SimpleDateFormat ore = new SimpleDateFormat("HH:mm:ss", Locale.ITALY);
 
             Date dataOre1 = new Date();
             Date dataOre2 = new Date();
@@ -160,7 +167,10 @@ public class AddOperation extends ActionBarActivity {
             try{
                 dataOre1 = dataore.parse(datainizio);
                 dataOre2 = dataore.parse(datafine);
-            }catch (ParseException e){e.toString();}
+            }catch (ParseException e){
+                AlertDialog.Builder message = Utility.creaDialogoVeloce(this, "DettaglioOperazioni, Errore con le date", "Messaggio di Errore");
+                message.create().show();
+            }
 
             ((TextView) findViewById(R.id.edttxtData)).setText(data.format(dataOre1));
             ((TextView) findViewById(R.id.edttxtOraDa)).setText(ore.format(dataOre1));
@@ -199,7 +209,6 @@ public class AddOperation extends ActionBarActivity {
 
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -216,7 +225,7 @@ public class AddOperation extends ActionBarActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            Intent i = new Intent(this, Settings.class);
+            Intent i = new Intent(this, Impostazioni.class);
             startActivity(i);
             return true;
         }
@@ -233,18 +242,12 @@ public class AddOperation extends ActionBarActivity {
 
         if (requestCode == PICK_CLIENT_REQUEST) {
             if(resultCode == RESULT_OK){
-                try {
-                    String id = data.getStringExtra("IDENTIFICATIVO");
-                    String nome = data.getStringExtra("NOME");
-                    String codice = data.getStringExtra("CODICE");
-                    ((TextView) findViewById(R.id.txtvwHideIDao)).setText(id);
-                    ((TextView) findViewById(R.id.txtvwNomeClienteao)).setText(nome);
-                    ((TextView)findViewById(R.id.txtvwCodiceao)).setText(codice);
-                }catch (Exception e){
-                    e.toString();
-                }
-            }
-            if (resultCode == RESULT_CANCELED) {
+                String id = data.getStringExtra("IDENTIFICATIVO");
+                String nome = data.getStringExtra("NOME");
+                String codice = data.getStringExtra("CODICE");
+                ((TextView) findViewById(R.id.txtvwHideIDao)).setText(id);
+                ((TextView) findViewById(R.id.txtvwNomeClienteao)).setText(nome);
+                ((TextView)findViewById(R.id.txtvwCodiceao)).setText(codice);
             }
         }
     }
@@ -252,7 +255,7 @@ public class AddOperation extends ActionBarActivity {
     public void inserisciOperazione(View view) {
 
         if(operazionecorrente == OperazioniCorrenti.MODIFICAOPERAZIONEINTERVENTO ||operazionecorrente == OperazioniCorrenti.INSERIMENTOOPERAZIONE || operazionecorrente == OperazioniCorrenti.MODIFICAOPERAZIONE || operazionecorrente == OperazioniCorrenti.INSERIMENTOOPERAZIONEINTERVENTO){
-            SimpleDateFormat sdf= new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+            SimpleDateFormat sdf= new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.ITALY);
             MySqlLiteHelper mysql = new MySqlLiteHelper(this);
 
             int nuovoID = getNuovoId(mysql);
@@ -261,11 +264,11 @@ public class AddOperation extends ActionBarActivity {
             Date datafin = new Date();
             String data = ((TextView) findViewById(R.id.edttxtData)).getText().toString();
             try{
-
                 datain = sdf.parse(data + " " + ((TextView) findViewById(R.id.edttxtOraDa)).getText().toString());
                 datafin = sdf.parse(data + " " + ((TextView) findViewById(R.id.edttxtOraA)).getText().toString());
             }catch (Exception e){
-                e.toString();
+                AlertDialog.Builder message = Utility.creaDialogoVeloce(this, "DettaglioOperazioni, Errore con le date", "Messaggio di Errore");
+                message.create().show();
             }
             Spinner myspinner = (Spinner)findViewById(R.id.spinnerTipo);
             String HWSW = ((TextView)findViewById(R.id.txtvwHWSW)).getText().toString().substring(0,1);
@@ -276,9 +279,7 @@ public class AddOperation extends ActionBarActivity {
             int nonfatturare = ((CheckBox)findViewById(R.id.chkbxNonFatturare)).isChecked() ? 1 : 0;
             int nontrasferire = ((CheckBox)findViewById(R.id.chkbxNonTrasferire)).isChecked() ? 1 : 0;
             int chiudere = ((CheckBox)findViewById(R.id.chkbxChiudereIntervento)).isChecked() ? 1 : 0;
-            int idCliente = 0;
             int idIt = 0;
-            String codiceCliente = ((TextView)findViewById(R.id.txtvwCodiceao)).getText().toString();
             String idUnivoco = Utility.idUnivoco(idTecnico);
             // creo le operazioni per i trasferimenti
             String andataDa = ((EditText)findViewById(R.id.edttxtAndataDa)).getText().toString();
@@ -286,53 +287,70 @@ public class AddOperation extends ActionBarActivity {
             String ritornoDa = ((EditText)findViewById(R.id.edttxtRitornoDa)).getText().toString();
             String ritornoA = ((EditText)findViewById(R.id.edttxtRitornoA)).getText().toString();
             if(!andataA.equals("") && !andataDa.equals("")){
-                SimpleDateFormat sdfandata = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+                String myluogo;
+                SimpleDateFormat sdfandata = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.ITALY);
                 Date andatada = new Date();
                 Date andataa = new Date();
                 try{
                     andatada = sdfandata.parse(data + " " + andataDa + ":00");
                     andataa = sdfandata.parse(data + " " + andataA + ":00");
-                }catch (ParseException e){e.toString();}
-                if(nonfatturare == 1){
-                    luogo = "TN";
+                }catch (ParseException e){
+                    AlertDialog.Builder message = Utility.creaDialogoVeloce(this, "DettaglioOperazioni, Errore con le date", "Messaggio di Errore");
+                    message.create().show();
                 }
-                else luogo = "TA";
+                if(nonfatturare == 1){
+                    myluogo = "TN";
+                }
+                else myluogo = "TA";
 
                 nuovoID = getNuovoId(mysql);
-                idIt = 0;
-                noteTecnico = "";
-                nontrasferire = 0;
-                chiudere = 0;
-                SottoIt nuovoandata = new SottoIt(nuovoID,nuovoID,HWSW,idIt,idTecnico,nomeTecnico,nomeCliente,andatada,andataa,luogo,noteTecnico,nonfatturare,nontrasferire,chiudere,null,null);
+                int myidIt = 0;
+                String mynoteTecnico = "";
+                int mynontrasferire = 0;
+                int mychiudere = 0;
+                SottoIt nuovoandata;
+                if(operazionecorrente == OperazioniCorrenti.INSERIMENTOOPERAZIONEINTERVENTO || operazionecorrente == OperazioniCorrenti.MODIFICAINTERVENTO){
+                    nuovoandata = new SottoIt(nuovoID,nuovoID,HWSW,IDIt,idTecnico,nomeTecnico,nomeCliente,andatada,andataa,myluogo,mynoteTecnico,nonfatturare,mynontrasferire,mychiudere,null,"");
+                }else
+                    nuovoandata = new SottoIt(nuovoID,nuovoID,HWSW,myidIt,idTecnico,nomeTecnico,nomeCliente,andatada,andataa,myluogo,mynoteTecnico,nonfatturare,mynontrasferire,mychiudere,null,"");
                 mysql.addSottoIntervento(nuovoandata);
             }
 
             if(!ritornoDa.equals("") && !ritornoDa.equals("")){
-                SimpleDateFormat sdfritorno = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+                SimpleDateFormat sdfritorno = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.ITALY);
+                String myluogo;
                 Date ritornoda = new Date();
                 Date ritornoa = new Date();
                 try{
                     ritornoda = sdfritorno.parse(data + " " + ritornoDa + ":00");
                     ritornoa = sdfritorno.parse(data + " " + ritornoA + ":00");
-                }catch (ParseException e){e.toString();}
-                if(nonfatturare == 1){
-                    luogo = "TN";
+                }catch (ParseException e){
+                    AlertDialog.Builder message = Utility.creaDialogoVeloce(this, "DettaglioOperazioni, Errore con le date", "Messaggio di Errore");
+                    message.create().show();
                 }
-                else luogo = "TA";
+                if(nonfatturare == 1){
+                    myluogo = "TN";
+                }
+                else myluogo = "TA";
 
                 nuovoID = getNuovoId(mysql);
-                idIt = 0;
-                noteTecnico = "";
-                nontrasferire = 0;
-                chiudere = 0;
-                SottoIt nuovoritorno = new SottoIt(nuovoID,nuovoID,HWSW,idIt,idTecnico,nomeTecnico,nomeCliente,ritornoda,ritornoa,luogo,noteTecnico,nonfatturare,nontrasferire,chiudere,"","");
+                int myidIt = 0;
+                String mynoteTecnico = "";
+                int mynontrasferire = 0;
+                int mychiudere = 0;
+                SottoIt nuovoritorno;
+                if(operazionecorrente == OperazioniCorrenti.INSERIMENTOOPERAZIONEINTERVENTO || operazionecorrente == OperazioniCorrenti.MODIFICAINTERVENTO){
+                    nuovoritorno = new SottoIt(nuovoID,nuovoID,HWSW,IDIt,idTecnico,nomeTecnico,nomeCliente,ritornoda,ritornoa,myluogo,mynoteTecnico,nonfatturare,mynontrasferire,mychiudere,null,"");
+                }else
+                    nuovoritorno = new SottoIt(nuovoID,nuovoID,HWSW,myidIt,idTecnico,nomeTecnico,nomeCliente,ritornoda,ritornoa,myluogo,mynoteTecnico,nonfatturare,mynontrasferire,mychiudere,null,"");
                 mysql.addSottoIntervento(nuovoritorno);
             }
 
             if(operazionecorrente == OperazioniCorrenti.INSERIMENTOOPERAZIONEINTERVENTO){
-                SottoIt nuovoint = new SottoIt(nuovoID,nuovoID,HWSW,IDIt,idTecnico,nomeTecnico,nomeCliente,datain,datafin, luogo, noteTecnico,nonfatturare, nontrasferire, chiudere, "", idUnivoco);
+                nuovoID = getNuovoId(mysql);
+                SottoIt nuovoint = new SottoIt(nuovoID,nuovoID,HWSW,IDIt,idTecnico,nomeTecnico,nomeCliente,datain,datafin, luogo, noteTecnico,nonfatturare, nontrasferire, chiudere, null, idUnivoco);
                 mysql.addSottoIntervento(nuovoint);
-                Intent i = new Intent(this, NewInterventActivity.class);
+                Intent i = new Intent(this, DettaglioInterventi.class);
                 // dico che sto ritornando al Nuovo Intervento TODO implementare ritorno in OperazioniCorrenti
                 i.putExtra("OP", "" + OperazioniCorrenti.MODIFICAINTERVENTO );
                 int chiusa = ((CheckBox) findViewById(R.id.chkbxChiudereIntervento)).isChecked() ? 1 : 0;
@@ -346,10 +364,10 @@ public class AddOperation extends ActionBarActivity {
 
 
             if(operazionecorrente == OperazioniCorrenti.MODIFICAOPERAZIONEINTERVENTO){
-                SottoIt updateint = new SottoIt(ID, ID, HWSW, IDIt, idTecnico, nomeTecnico, nomeCliente, datain, datafin, luogo, noteTecnico, nonfatturare, nontrasferire, chiudere, "", IDUNIVOCO);
+                SottoIt updateint = new SottoIt(ID, ID, HWSW, IDIt, idTecnico, nomeTecnico, nomeCliente, datain, datafin, luogo, noteTecnico, nonfatturare, nontrasferire, chiudere, null, IDUNIVOCO);
                 mysql.updateSottoIntervento(updateint);
-                Intent i = new Intent(this, NewInterventActivity.class);
-                // dico che sto ritornando al Nuovo Intervento TODO implementare ritorno in OperazioniCorrenti
+                Intent i = new Intent(this, DettaglioInterventi.class);
+                // dico che sto ritornando al Nuovo Intervento
                 i.putExtra("OP", "" + OperazioniCorrenti.MODIFICAINTERVENTO );
                 if(operazioneprecedente == OperazioniCorrenti.CHIAMATEAPERTE){
                     i.putExtra("OPP", "" + operazioneprecedente);
@@ -361,16 +379,17 @@ public class AddOperation extends ActionBarActivity {
             }
 
             if(operazionecorrente == OperazioniCorrenti.MODIFICAOPERAZIONE){
-                SottoIt updateint = new SottoIt(ID, ID, HWSW, idIt, idTecnico, nomeTecnico, nomeCliente, datain, datafin, luogo, noteTecnico, nonfatturare, nontrasferire, chiudere, "", IDUNIVOCO);
+                SottoIt updateint = new SottoIt(ID, ID, HWSW, idIt, idTecnico, nomeTecnico, nomeCliente, datain, datafin, luogo, noteTecnico, nonfatturare, nontrasferire, chiudere, null, IDUNIVOCO);
                 mysql.updateSottoIntervento(updateint);
-                Intent i = new Intent(this, NewTransfActivity.class);
+                Intent i = new Intent(this, ElencoTrasferimenti.class);
                 startActivity(i);
             }
 
             if(operazionecorrente == OperazioniCorrenti.INSERIMENTOOPERAZIONE) {
-                SottoIt nuovoint = new SottoIt(nuovoID,nuovoID,HWSW,idIt,idTecnico,nomeTecnico,nomeCliente,datain,datafin, luogo, noteTecnico,nonfatturare, nontrasferire, chiudere, "", idUnivoco);
+                nuovoID = getNuovoId(mysql);
+                SottoIt nuovoint = new SottoIt(nuovoID,nuovoID,HWSW,idIt,idTecnico,nomeTecnico,nomeCliente,datain,datafin, luogo, noteTecnico,nonfatturare, nontrasferire, chiudere, null, idUnivoco);
                 mysql.addSottoIntervento(nuovoint);
-                Intent i = new Intent(this, NewTransfActivity.class);
+                Intent i = new Intent(this, ElencoTrasferimenti.class);
                 startActivity(i);
             }
 
@@ -390,17 +409,17 @@ public class AddOperation extends ActionBarActivity {
 
     public void annullaModifiche(View view) {
         if(operazionecorrente == OperazioniCorrenti.INSERIMENTOOPERAZIONE || operazionecorrente == OperazioniCorrenti.MODIFICAOPERAZIONE) {
-            Intent i = new Intent(this, NewTransfActivity.class);
+            Intent i = new Intent(this, ElencoTrasferimenti.class);
             startActivity(i);
         }
         if(operazionecorrente == OperazioniCorrenti.CHIAMATECHIUSE){
-            Intent i = new Intent(this, NewInterventActivity.class);
+            Intent i = new Intent(this, DettaglioInterventi.class);
             i.putExtra("OP", "" + OperazioniCorrenti.CHIAMATECHIUSE);
             i.putExtra("ID", "" + IDIt);
             startActivity(i);
         }
         if(operazionecorrente == OperazioniCorrenti.INSERIMENTOOPERAZIONEINTERVENTO || operazionecorrente == OperazioniCorrenti.MODIFICAOPERAZIONEINTERVENTO){
-            Intent i = new Intent(this, NewInterventActivity.class);
+            Intent i = new Intent(this, DettaglioInterventi.class);
             i.putExtra("OP", "" + OperazioniCorrenti.MODIFICAINTERVENTO);
             int chiusa = ((CheckBox) findViewById(R.id.chkbxChiudereIntervento)).isChecked() ? 1 : 0;
             i.putExtra("CHIUSA", "" + chiusa);

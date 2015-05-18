@@ -7,7 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 
-public class DownloadActivity extends ActionBarActivity {
+public class Download extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -15,7 +15,6 @@ public class DownloadActivity extends ActionBarActivity {
         setContentView(R.layout.activity_download);
 
         // setto il titolo
-        getActionBar().setTitle("Scarica i dati in locale");
         getSupportActionBar().setTitle("Scarica i dati in locale");
     }
 
@@ -36,7 +35,7 @@ public class DownloadActivity extends ActionBarActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            Intent i = new Intent(this, Settings.class);
+            Intent i = new Intent(this, Impostazioni.class);
             startActivity(i);
             return true;
         }

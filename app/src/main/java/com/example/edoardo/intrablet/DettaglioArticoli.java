@@ -9,24 +9,23 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.example.edoardo.intrablet.R;
 import com.example.edoardo.intrablet.database.Articolo;
 import com.example.edoardo.intrablet.database.MySqlLiteHelper;
 import com.example.edoardo.intrablet.database.OperazioniCorrenti;
 
 import java.util.ArrayList;
 
-public class AggiungiArticolo extends ActionBarActivity {
+public class DettaglioArticoli extends ActionBarActivity {
     private int IDIt;
     private int ID;
     private int operazioneCorrente;
     private int operazioneprecedente = OperazioniCorrenti.NOOP;
+
+    @SuppressWarnings("unchecked")
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +34,6 @@ public class AggiungiArticolo extends ActionBarActivity {
         Intent intent = getIntent();
 
         // setto il titolo
-        getActionBar().setTitle("Articolo");
         getSupportActionBar().setTitle("Articolo");
 
         IDIt = Integer.parseInt(intent.getStringExtra("IDIt"));
@@ -57,7 +55,7 @@ public class AggiungiArticolo extends ActionBarActivity {
             myspinner.setSelection(((ArrayAdapter) myspinner.getAdapter()).getPosition(art.getTipointervento()));
         }
         if(operazioneCorrente == OperazioniCorrenti.CHIAMATECHIUSE){
-            ((Button) findViewById(R.id.btnregistraart)).setVisibility(View.INVISIBLE);
+            (findViewById(R.id.btnregistraart)).setVisibility(View.INVISIBLE);
         }
     }
 
@@ -88,7 +86,7 @@ public class AggiungiArticolo extends ActionBarActivity {
         int j = 0;
         MySqlLiteHelper mysql = new MySqlLiteHelper(this);
         ArrayList<Articolo> articoli = mysql.getAllArticolo();
-        SharedPreferences sharedpreferences = getSharedPreferences(Settings.preferences, Context.MODE_PRIVATE);
+        SharedPreferences sharedpreferences = getSharedPreferences(Impostazioni.preferences, Context.MODE_PRIVATE);
 
         Integer idTecnico = Integer.parseInt(sharedpreferences.getString(TipiConfigurazione.idTecnico, ""));
 
@@ -117,20 +115,20 @@ public class AggiungiArticolo extends ActionBarActivity {
         catch(Exception e){
             Toast.makeText(this,"Formato Prezzo Non Corretto", Toast.LENGTH_SHORT).show();
             return;
-        };
+        }
         Integer quantità;
         try{quantità = Integer.parseInt(((EditText) findViewById(R.id.edttxtQuantità)).getText().toString());}
         catch(Exception e){
             Toast.makeText(this,"Formato Quantità Non Corretto", Toast.LENGTH_SHORT).show();
             return;
-        };
+        }
         String tipoInt = myspinner.getSelectedItem().toString();
 
         if(operazioneCorrente == OperazioniCorrenti.MODIFICAARTICOLO){
             Articolo vecchio = mysql.getArticoli(ID).get(0);
             Articolo nuovo = new Articolo(vecchio.getId(), vecchio.getIDit(), matricola, codice, descrizione, tipoInt, vecchio.getMerceologico(), vecchio.getGaranzia(), prezzo, vecchio.getId(), quantità, vecchio.getIdunivoco());
             mysql.updateArticolo(nuovo);
-            Intent i = new Intent(this, NewInterventActivity.class);
+            Intent i = new Intent(this, DettaglioInterventi.class);
             i.putExtra("OP","" + OperazioniCorrenti.MODIFICAINTERVENTO);
             if(operazioneprecedente == OperazioniCorrenti.CHIAMATEAPERTE){
                 i.putExtra("OPP", "" + operazioneprecedente);
@@ -143,7 +141,7 @@ public class AggiungiArticolo extends ActionBarActivity {
             Articolo nuovo = new Articolo(j, IDIt, matricola, codice, descrizione, tipoInt, "", "", prezzo, j, quantità, idUnivoco);
 
             mysql.addArticolo(nuovo);
-            Intent i = new Intent(this, NewInterventActivity.class);
+            Intent i = new Intent(this, DettaglioInterventi.class);
             i.putExtra("OP","" + OperazioniCorrenti.MODIFICAINTERVENTO);
             if(operazioneprecedente == OperazioniCorrenti.CHIAMATEAPERTE){
                 i.putExtra("OPP", "" + operazioneprecedente);
@@ -156,7 +154,7 @@ public class AggiungiArticolo extends ActionBarActivity {
 
     public void annullaArticolo(View view) {
         if(operazioneCorrente == OperazioniCorrenti.NUOVOARTICOLO || operazioneCorrente == OperazioniCorrenti.MODIFICAARTICOLO){
-            Intent i = new Intent(this, NewInterventActivity.class);
+            Intent i = new Intent(this, DettaglioInterventi.class);
             i.putExtra("OP", "" + OperazioniCorrenti.MODIFICAINTERVENTO);
             if(operazioneprecedente == OperazioniCorrenti.CHIAMATEAPERTE){
                 i.putExtra("OPP", "" + operazioneprecedente);
@@ -165,7 +163,7 @@ public class AggiungiArticolo extends ActionBarActivity {
             startActivity(i);
         }
         if(operazioneCorrente == OperazioniCorrenti.CHIAMATECHIUSE){
-            Intent i = new Intent(this, NewInterventActivity.class);
+            Intent i = new Intent(this, DettaglioInterventi.class);
             i.putExtra("OP", "" + OperazioniCorrenti.CHIAMATECHIUSE);
             if(operazioneprecedente == OperazioniCorrenti.CHIAMATEAPERTE){
                 i.putExtra("OPP", "" + operazioneprecedente);

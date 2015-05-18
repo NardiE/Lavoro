@@ -1,13 +1,10 @@
 package com.example.edoardo.intrablet.database;
-import android.content.Intent;
 
 import org.json.JSONObject;
 
 import java.util.Date;
 
-/**
- * Created by Giacomo on 10/11/2014.
- */
+@SuppressWarnings("unused")
 public class Intervento {
 
     private final int _id;
@@ -37,7 +34,7 @@ public class Intervento {
 
     public Intervento(){
        _id = 0;
-   };
+   }
 
     public Intervento(int _id, int id, String hwsw, String numero, Date data,
                       Date dataPrevistaIntervento, int idCliente, String codiceCliente,

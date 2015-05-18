@@ -11,7 +11,7 @@ import android.view.View;
 import android.widget.EditText;
 
 
-public class Settings extends ActionBarActivity {
+public class Impostazioni extends ActionBarActivity {
     public static String preferences = "preferenze";
 
     @Override
@@ -50,7 +50,7 @@ public class Settings extends ActionBarActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            Intent i = new Intent(this, Settings.class);
+            Intent i = new Intent(this, Impostazioni.class);
             startActivity(i);
             return true;
         }
@@ -66,8 +66,8 @@ public class Settings extends ActionBarActivity {
         editor.putString(TipiConfigurazione.nomeTecnico, ((EditText) findViewById(R.id.edttxtNomeConf)).getText().toString());
         editor.putString(TipiConfigurazione.ipServer, ((EditText) findViewById(R.id.edttxtIPConf)).getText().toString());
         editor.putString(TipiConfigurazione.portaServer, ((EditText) findViewById(R.id.edttxtPortaConf)).getText().toString());
-        editor.commit();
-        Intent i = new Intent(this, MainActivity.class);
+        editor.apply();
+        Intent i = new Intent(this, Home.class);
         startActivity(i);
     }
 }
