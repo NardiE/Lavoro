@@ -497,6 +497,10 @@ public class Upload extends ActionBarActivity {
         while (ns.length() < dim) {
             ns += " ";
         }
+        if(ns.length() > dim){
+            ns = ns.substring(0,dim);
+        }
+
         return ns;
     }
 
