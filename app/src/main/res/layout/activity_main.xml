@@ -1,65 +1,82 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
+    android:orientation="vertical"
+    android:background="@drawable/ic_sfondo"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".MainActivity">
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:orientation="horizontal"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:orientation="horizontal"
+        android:layout_height="0dp"
+        android:layout_weight="3">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:textAppearance="@android:style/TextAppearance.Large"
+            android:text="ALLINEA I CLIENTI"
+            android:textColor="#000000"
+            android:textStyle="bold"
+            android:layout_marginTop="80dp"/>
 
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/btnDownload"
-        android:background="@drawable/ic_allinea_clienti"
-        android:onClick="openDownload"
-        android:layout_alignParentTop="true"
-        android:layout_alignRight="@+id/btnWork"
-        android:layout_alignEnd="@+id/btnWork" />
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnDownload"
+            android:background="@drawable/ic_allinea_clienti"
+            android:onClick="openDownload" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        android:layout_weight="3">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="80dp"
+            android:textAppearance="@android:style/TextAppearance.Large"
+            android:text="INVIA I DATI AL SERVER"
+            android:textColor="#000000"
+            android:textStyle="bold"/>
 
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/btnUpload"
-        android:background="@drawable/ic_upload"
-        android:onClick="openUpload"
-        android:layout_centerVertical="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnUpload"
+            android:background="@drawable/ic_upload"
+            android:onClick="openUpload"/>
+    </LinearLayout>
 
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/btnWork"
-        android:background="@drawable/ic_work"
-        android:layout_alignParentBottom="true"
-        android:layout_alignRight="@+id/btnUpload"
-        android:layout_alignEnd="@+id/btnUpload"
-        android:onClick="startWork"/>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="3">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_marginTop="80dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="@android:style/TextAppearance.Large"
+            android:text="INSERISCI O MODIFICA INTERVENTI"
+            android:textColor="#000000"
+            android:textStyle="bold"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="@android:style/TextAppearance.Large"
-        android:text="ALLINEA I CLIENTI"
-        android:textColor="#000000"
-        android:textStyle="bold"
-        android:layout_marginTop="80dp"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="@android:style/TextAppearance.Large"
-        android:text="INVIA I DATI AL SERVER"
-        android:textColor="#000000"
-        android:textStyle="bold"
-        android:layout_marginTop="420dp"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="@android:style/TextAppearance.Large"
-        android:text="INSERISCI O MODIFICA INTERVENTI"
-        android:textColor="#000000"
-        android:textStyle="bold"
-        android:layout_marginTop="760dp"/>
-
-</RelativeLayout>
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_gravity="left"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnWork"
+            android:background="@drawable/ic_work"
+            android:onClick="startWork"/>
+    </LinearLayout>
+</LinearLayout>

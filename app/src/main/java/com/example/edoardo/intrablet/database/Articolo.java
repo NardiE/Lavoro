@@ -6,7 +6,6 @@ import org.json.JSONObject;
 @SuppressWarnings("unused")
 
 public class Articolo {
-/*fixme problema singolare/plurale*/
     /***
      * Necessario per lavorare con i cursori Android
      */

@@ -81,7 +81,7 @@ public class DettaglioOperazioni extends ActionBarActivity {
 
         // carico la form con la data
         SimpleDateFormat sdfdata = new SimpleDateFormat("dd-MM-yyyy", Locale.ITALY);
-        SimpleDateFormat sdfora = new SimpleDateFormat("HH:mm:ss", Locale.ITALY);
+        SimpleDateFormat sdfora = new SimpleDateFormat("HH:mm", Locale.ITALY);
         sdfora.setTimeZone(TimeZone.getDefault());
         ((TextView) findViewById(R.id.edttxtData)).setText(sdfdata.format(new Date()));
         ((TextView) findViewById(R.id.edttxtOraDa)).setText(sdfora.format(new Date()));
@@ -119,7 +119,7 @@ public class DettaglioOperazioni extends ActionBarActivity {
             myspinner.setSelection(((ArrayAdapter) myspinner.getAdapter()).getPosition(operazione.getLuogo()));
 
             SimpleDateFormat data = new SimpleDateFormat("dd-MM-yyyy", Locale.ITALY);
-            SimpleDateFormat ore = new SimpleDateFormat("HH:mm:ss", Locale.ITALY);
+            SimpleDateFormat ore = new SimpleDateFormat("HH:mm", Locale.ITALY);
 
 
             ((TextView) findViewById(R.id.edttxtData)).setText(data.format(operazione.getDataInizio()));
@@ -156,7 +156,7 @@ public class DettaglioOperazioni extends ActionBarActivity {
 
             SimpleDateFormat dataore = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.ITALY);
             SimpleDateFormat data = new SimpleDateFormat("dd-MM-yyyy", Locale.ITALY);
-            SimpleDateFormat ore = new SimpleDateFormat("HH:mm:ss", Locale.ITALY);
+            SimpleDateFormat ore = new SimpleDateFormat("HH:mm", Locale.ITALY);
 
             Date dataOre1 = new Date();
             Date dataOre2 = new Date();
@@ -263,12 +263,17 @@ public class DettaglioOperazioni extends ActionBarActivity {
             Date datain = new Date();
             Date datafin = new Date();
             String data = ((TextView) findViewById(R.id.edttxtData)).getText().toString();
+            String datainizio = ((TextView) findViewById(R.id.edttxtOraDa)).getText().toString();
+            String datafine = ((TextView) findViewById(R.id.edttxtOraA)).getText().toString();
+            datainizio = aggiustaData(datainizio);
+            datafine = aggiustaData(datafine);
             try{
-                datain = sdf.parse(data + " " + ((TextView) findViewById(R.id.edttxtOraDa)).getText().toString());
-                datafin = sdf.parse(data + " " + ((TextView) findViewById(R.id.edttxtOraA)).getText().toString());
+                datain = sdf.parse(data + " " + datainizio + ":00");
+                datafin = sdf.parse(data + " " + datafine + ":00");
             }catch (Exception e){
                 AlertDialog.Builder message = Utility.creaDialogoVeloce(this, "DettaglioOperazioni, Errore con le date", "Messaggio di Errore");
                 message.create().show();
+                return;
             }
             Spinner myspinner = (Spinner)findViewById(R.id.spinnerTipo);
             String HWSW = ((TextView)findViewById(R.id.txtvwHWSW)).getText().toString().substring(0,1);
@@ -297,6 +302,7 @@ public class DettaglioOperazioni extends ActionBarActivity {
                 }catch (ParseException e){
                     AlertDialog.Builder message = Utility.creaDialogoVeloce(this, "DettaglioOperazioni, Errore con le date", "Messaggio di Errore");
                     message.create().show();
+                    return;
                 }
                 if(nonfatturare == 1){
                     myluogo = "TN";
@@ -327,6 +333,7 @@ public class DettaglioOperazioni extends ActionBarActivity {
                 }catch (ParseException e){
                     AlertDialog.Builder message = Utility.creaDialogoVeloce(this, "DettaglioOperazioni, Errore con le date", "Messaggio di Errore");
                     message.create().show();
+                    return;
                 }
                 if(nonfatturare == 1){
                     myluogo = "TN";
@@ -429,5 +436,12 @@ public class DettaglioOperazioni extends ActionBarActivity {
             }
             startActivity(i);
         }
+    }
+
+    public String aggiustaData(String data){
+        if(data.length() == 4){
+            data = data.substring(0,2) +":" + data.substring(2,4);
+        }
+        return data;
     }
 }

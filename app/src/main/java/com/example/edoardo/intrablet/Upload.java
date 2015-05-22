@@ -4,9 +4,13 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.os.Environment;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.util.Pair;
 import android.view.Menu;
@@ -25,8 +29,16 @@ import com.example.edoardo.intrablet.database.Receiver;
 import com.example.edoardo.intrablet.database.SottoIt;
 import com.example.edoardo.intrablet.database.TipiIntervento;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -48,9 +60,13 @@ public class Upload extends ActionBarActivity {
 
     private String IP;
     private int port;
+    //TODO sistemare firmeporte
+    private int firmeport = 12111;
+    private int offset;
     String result;
     String tipoInvio;
     Pair<Boolean,String> coppia;
+    private JSONObject toSend = new JSONObject();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,7 +132,7 @@ public class Upload extends ActionBarActivity {
         else
             data = preparaDati(Integer.parseInt(idTecnico));
 
-        Executor executor = new Executor(this, IP, port, data);
+        Executor executor = new Executor(this, IP, port, firmeport, data, toSend);
         Thread t = new Thread(executor);
         t.start();
     }
@@ -147,6 +163,7 @@ public class Upload extends ActionBarActivity {
                 String test = result.substring(result.length() - 5);
                 if(test.equals("#00\r\n") || test.equals("#99\r\n")){
                     letturadati();
+                    eliminaImmagini();
                     findViewById(R.id.Attendere).setVisibility(View.INVISIBLE);
                     findViewById(R.id.pupazzo).setVisibility(View.VISIBLE);
                     findViewById(R.id.statopupazzo).setVisibility(View.VISIBLE);
@@ -165,6 +182,10 @@ public class Upload extends ActionBarActivity {
     public String preparaDati(int idTecnico){
 
         MySqlLiteHelper mysql = new MySqlLiteHelper(this);
+
+        //creo un JSON per le firme
+        toSend = new JSONObject();
+        JSONArray images = new JSONArray();
 
         String result;
         result = "";
@@ -196,6 +217,32 @@ public class Upload extends ActionBarActivity {
                 result = result + it.getMotivoChiamata()+ "\r" + "\n";
             }
             result = result + "^03" + "\r" + "\n";
+
+            //firma
+            String path = Environment.getExternalStorageDirectory().toString();
+            String filename = "firma" + it.getId() + it.getHwsw() + ".png";
+            File readFile = new File(path + "/" + filename);
+            if(readFile.exists()){
+                StringBuilder buffer = new StringBuilder();
+                try{
+                   // carico la bitmap
+                    File file = new File(path + "/" + filename);
+                    FileInputStream streamIn = new FileInputStream(file);
+                    Bitmap bitmap = BitmapFactory.decodeStream(streamIn);
+                    ByteArrayOutputStream ByteStream=new  ByteArrayOutputStream();
+                    bitmap.compress(Bitmap.CompressFormat.PNG,100, ByteStream);
+                    byte [] b = ByteStream.toByteArray();
+                    String temp=Base64.encodeToString(b, Base64.DEFAULT);
+                    JSONObject obj = new JSONObject();
+                    obj.put("IDit", it.getId());
+                    obj.put("IDunivoco", it.getIdunivoco());
+                    obj.put("HWSW", it.getHwsw());
+                    obj.put("immagine", temp);
+                    images.put(obj);
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
 
             ArrayList<Articolo> articoli = mysql.getArticoliDaIntervento(it.getId());
             for(Articolo art : articoli){
@@ -267,6 +314,13 @@ public class Upload extends ActionBarActivity {
             result = result + "^07" + "\r" + "\n";
         }
         result = result + "#00" + "\r" + "\n";
+
+        try {
+            toSend.put("images", images);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
         return result;
     }
 
@@ -507,6 +561,23 @@ public class Upload extends ActionBarActivity {
     private String aggiustaNumero(String s){
         if(s.startsWith("+")) return s.substring(1);
         else return s;
+    }
+
+    public void eliminaImmagini(){
+        try {
+            JSONArray arr = toSend.getJSONArray("images");
+            for(int i = 0; i < arr.length(); i++){
+                JSONObject curr = arr.getJSONObject(i);
+                Integer IDit = curr.getInt("IDit");
+                String HWSW = curr.getString("HWSW");
+                String path = Environment.getExternalStorageDirectory().toString();
+                String filename = "firma" + IDit + HWSW + ".png";
+                File delFile = new File(path + "/" + filename);
+                delFile.delete();
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
 

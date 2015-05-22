@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">inTrABLET</string>
+    <string name="app_name">IntraSignorini 1.0</string>
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
@@ -30,5 +30,6 @@
     <string name="title_activity_inserimento_trasferimento">InserimentoTrasferimento</string>
     <string name="title_activity_settings">Settings</string>
     <string name="title_activity_winsock">Winsock</string>
+    <string name="title_activity_firma">FirmaActivity</string>
 
 </resources>

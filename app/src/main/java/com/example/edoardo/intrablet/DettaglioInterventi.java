@@ -548,4 +548,17 @@ public class DettaglioInterventi extends ActionBarActivity {
             return;
         }
     }
+
+    public void apriFirma(View view) {
+        SharedPreferences sharedpreferences = getSharedPreferences(Impostazioni.preferences, Context.MODE_PRIVATE);
+        String HWSW = sharedpreferences.getString(TipiConfigurazione.tipoInterventi,"");
+        Intent i = new Intent(this, FirmaActivity.class);
+        if(operazioneprecedente == OperazioniCorrenti.CHIAMATEAPERTE){
+            i.putExtra("OPP", "" + operazioneprecedente);
+        }
+        i.putExtra("OP", "" + OperazioniCorrenti.MODIFICAARTICOLO);
+        i.putExtra("IDIT","" + ID);
+        i.putExtra("HWSW", "" + HWSW);
+        startActivity(i);
+    }
 }
