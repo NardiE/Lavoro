@@ -28,11 +28,13 @@
     </LinearLayout>
     <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
+        android:layout_height="fill_parent"
+        android:orientation="horizontal">
         <Button
             android:layout_width="0dp"
             android:id="@+id/salvafirma"
             android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
             android:onClick="salva"
             android:text="Salva"
             android:layout_weight="1"/>
@@ -40,6 +42,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:id="@+id/annullafirma"
+            android:layout_gravity="bottom"
             android:onClick="annulla"
             android:text="Annulla"
             android:layout_weight="1"/>

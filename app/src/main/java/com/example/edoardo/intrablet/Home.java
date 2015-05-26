@@ -1,5 +1,6 @@
 package com.example.edoardo.intrablet;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -83,6 +84,10 @@ public class Home extends ActionBarActivity {
             Intent i = new Intent(this, Impostazioni.class);
             startActivity(i);
             return true;
+        }
+        if (id == R.id.info){
+            AlertDialog.Builder myb = Utility.creaDialogoVeloce(this, "Versione 1.1 \n\n Sviluppato per Signorini Software Service da Edoardo Nardi \n\n Per informazioni contattare: edoardo@signorini.it", "Informazioni");
+            myb.create().show();
         }
 
         return super.onOptionsItemSelected(item);
