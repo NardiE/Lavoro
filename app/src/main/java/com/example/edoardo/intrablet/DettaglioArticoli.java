@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -33,26 +34,38 @@ public class DettaglioArticoli extends ActionBarActivity {
         setContentView(R.layout.activity_aggiungi_articolo);
         Intent intent = getIntent();
 
+        Log.i(Applicazione.LOGTAGART, "Inizio la gestione dell'articolo");
+
         // setto il titolo
         getSupportActionBar().setTitle("Articolo");
+
+        Log.i(Applicazione.LOGTAGART, "Carico le informazioni dell' intent");
 
         IDIt = Integer.parseInt(intent.getStringExtra("IDIt"));
         operazioneCorrente = Integer.parseInt(intent.getStringExtra("OP"));
         if(intent.getStringExtra("OPP") != null && !intent.getStringExtra("OPP").equals("")){
             operazioneprecedente = Integer.parseInt(intent.getStringExtra("OPP"));
         }
+
+        Log.i(Applicazione.LOGTAGART, "Caricate le informazioni dell' intent");
+        Log.i(Applicazione.LOGTAGART, "Popolo i campi dell'articolo");
+
         ((TextView) findViewById(R.id.edttxtIdInterventoArticolo)).setText("" + IDIt);
         if(operazioneCorrente == OperazioniCorrenti.MODIFICAARTICOLO || operazioneCorrente == OperazioniCorrenti.CHIAMATECHIUSE){
             MySqlLiteHelper mysql = new MySqlLiteHelper(this);
             ID = Integer.parseInt(intent.getStringExtra("ID"));
+            Log.i(Applicazione.LOGTAGART, "Caricato ID");
             Articolo art = mysql.getArticoli(ID).get(0);
+            Log.i(Applicazione.LOGTAGART, "Caricato articolo");
             ((EditText) findViewById(R.id.edttxtMatricola)).setText("" + art.getMatricola());
             ((EditText) findViewById(R.id.edttxtCodice)).setText("" + art.getCodice());
             ((EditText) findViewById(R.id.edttxtDescrizione)).setText("" + art.getDescrizione());
             ((EditText) findViewById(R.id.edttxtPrezzo)).setText("" + art.getPrezzo());
             ((EditText) findViewById(R.id.edttxtQuantità)).setText("" + art.getQt());
+            Log.i(Applicazione.LOGTAGART, "Settate le view");
             Spinner myspinner = (Spinner) findViewById(R.id.spinner);
             myspinner.setSelection(((ArrayAdapter) myspinner.getAdapter()).getPosition(art.getTipointervento()));
+            Log.i(Applicazione.LOGTAGART, "Caricato lo spinner dei tipi");
         }
         if(operazioneCorrente == OperazioniCorrenti.CHIAMATECHIUSE){
             (findViewById(R.id.btnregistraart)).setVisibility(View.INVISIBLE);
@@ -83,6 +96,7 @@ public class DettaglioArticoli extends ActionBarActivity {
     }
 
     public void aggiungiArticolo(View view) {
+        Log.i(Applicazione.LOGTAGART, "Iniziata procedura di aggiunta di un articolo");
         int j = 0;
         MySqlLiteHelper mysql = new MySqlLiteHelper(this);
         ArrayList<Articolo> articoli = mysql.getAllArticolo();
@@ -150,9 +164,12 @@ public class DettaglioArticoli extends ActionBarActivity {
             startActivity(i);
         }
 
+        Log.i(Applicazione.LOGTAGART, "Aggiunto articolo");
+
     }
 
     public void annullaArticolo(View view) {
+        Log.i(Applicazione.LOGTAGART, "Annullato articolo");
         if(operazioneCorrente == OperazioniCorrenti.NUOVOARTICOLO || operazioneCorrente == OperazioniCorrenti.MODIFICAARTICOLO){
             Intent i = new Intent(this, DettaglioInterventi.class);
             i.putExtra("OP", "" + OperazioniCorrenti.MODIFICAINTERVENTO);

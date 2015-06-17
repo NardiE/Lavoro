@@ -123,7 +123,29 @@
         android:hint="1015"
         android:textColor="#000000"/>
 </LinearLayout>
-
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:textAppearance="@android:style/TextAppearance.Large"
+            android:textStyle="bold"
+            android:text="PORTA FIRME:"
+            android:textColor="#000000"/>
+        <EditText
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:layout_height="wrap_content"
+            android:id="@+id/edttxtPortaFirme"
+            android:textAppearance="@android:style/TextAppearance.Large"
+            android:textStyle="bold"
+            android:hint="12111"
+            android:textColor="#000000"/>
+    </LinearLayout>
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="0dp"

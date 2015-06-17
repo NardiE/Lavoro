@@ -28,21 +28,24 @@ public class Home extends ActionBarActivity {
         getSupportActionBar().setTitle("Home");
 
 
-        /*msql.deleteAllClienti();
-        msql.deleteAllInterventi();
-        msql.deleteAllSottoit();
-        msql.deleteAllArticoli();*/
+        // Procedura di cleanUp
+        /*MySqlLiteHelper msqlp = new MySqlLiteHelper(this);
+        msqlp.deleteAllInterventi();
+        msqlp.deleteAllSottoit();
+        msqlp.deleteAllArticoli();
+        msqlp.deleteAllClienti();*/
 
         // Se è il primo avvio
         //recupero IP e porta
         SharedPreferences sharedpreferences = getSharedPreferences(Impostazioni.preferences, Context.MODE_PRIVATE);
 
-        if(sharedpreferences.getString(TipiConfigurazione.tipoInterventi, "").equals("") || sharedpreferences.getString(TipiConfigurazione.nomeTecnico,"").equals("") || sharedpreferences.getString(TipiConfigurazione.idTecnico,"").equals("")){ArrayList<Cliente> clienti = new ArrayList<>();
+        if(sharedpreferences.getString(TipiConfigurazione.tipoInterventi, "").equals("") || sharedpreferences.getString(TipiConfigurazione.nomeTecnico,"").equals("") || sharedpreferences.getString(TipiConfigurazione.idTecnico,"").equals("") || sharedpreferences.getString(TipiConfigurazione.portaServer,"").equals("") || sharedpreferences.getString(TipiConfigurazione.firmePorte,"").equals("") || sharedpreferences.getString(TipiConfigurazione.ipServer,"").equals("")){
+            ArrayList<Cliente> clienti = new ArrayList<>();
             for(int i = 0; i < 30; i++){
                 clienti.add(new Cliente(i,"Pippo", "0","1",i + " SRL",i));
             }
             MySqlLiteHelper msql = new MySqlLiteHelper(this);
-
+            msql.deleteAllClienti();
             for(Cliente c: clienti){
                 msql.addCliente(c);
             }
@@ -86,7 +89,7 @@ public class Home extends ActionBarActivity {
             return true;
         }
         if (id == R.id.info){
-            AlertDialog.Builder myb = Utility.creaDialogoVeloce(this, "Versione 1.1 \n\n Sviluppato per Signorini Software Service da Edoardo Nardi \n\n Per informazioni contattare: edoardo@signorini.it", "Informazioni");
+            AlertDialog.Builder myb = Utility.creaDialogoVeloce(this, "Versione 1.2 \n\n Sviluppato per Signorini Software Service da Edoardo Nardi \n\n Per informazioni contattare: edoardo@signorini.it", "Informazioni");
             myb.create().show();
         }
 

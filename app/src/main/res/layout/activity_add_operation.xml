@@ -197,35 +197,21 @@
         <CheckBox
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Non Fatturare"
             android:id="@+id/chkbxNonFatturare"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Non Fatturare"/>
-        <TextView
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content" />
         <CheckBox
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Non Trasferire"
             android:id="@+id/chkbxNonTrasferire"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Non Trasferire"/>
-        <TextView
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content" />
         <CheckBox
             android:layout_width="wrap_content"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
+            android:text="Chiudere Intervento"
             android:id="@+id/chkbxChiudereIntervento"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Chiudere Intervento"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="fill_parent"

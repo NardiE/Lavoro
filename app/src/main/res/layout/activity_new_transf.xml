@@ -26,17 +26,17 @@
             android:textAppearance="@android:style/TextAppearance.Large"/>
         <TextView
             android:layout_width="0dp"
-            android:layout_weight="17"
+            android:layout_weight="16"
             android:gravity="center"
             android:layout_height="wrap_content"
             android:text="CLIENTE"
             android:textAppearance="@android:style/TextAppearance.Large"/>
         <TextView
             android:layout_width="0dp"
-            android:layout_weight="4"
+            android:layout_weight="8"
             android:gravity="center"
             android:layout_height="wrap_content"
-            android:text="ID"
+            android:text="ORA"
             android:textAppearance="@android:style/TextAppearance.Large"/>
     </LinearLayout>
     <LinearLayout

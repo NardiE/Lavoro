@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.text.format.DateUtils;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -22,8 +23,11 @@ import com.example.edoardo.intrablet.database.MySqlLiteHelper;
 import com.example.edoardo.intrablet.database.OperazioniCorrenti;
 import com.example.edoardo.intrablet.database.SottoIt;
 import com.example.edoardo.intrablet.database.TipiIntervento;
+
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 
@@ -55,50 +59,14 @@ public class ElencoTrasferimenti extends ActionBarActivity {
         mylist.setAdapter(adapter);
         mylist.setLongClickable(true);
         registerForContextMenu(mylist);
-
-        /*mylist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                HashMap<String,Object> transf = (HashMap)parent.getItemAtPosition(position);
-
-                Integer ID = (Integer)transf.get("ID");
-                MySqlLiteHelper mysql = new MySqlLiteHelper(getApplicationContext());
-                ArrayList<SottoIt> sint = (ArrayList)mysql.getSottoIntervento(ID);
-                SottoIt sit = sint.get(0);
-
-                String luogo = new String();
-
-                ArrayList<TipiIntervento> tpit = (ArrayList)mysql.getAllTipoIntervento();
-                for(TipiIntervento t: tpit){
-                    if(t.getCodice().equals(sit.getLuogo())) luogo = t.getCodice() + " " + t.getDescrizione();
-
-                }
-
-                String operazionecorrente = "" + OperazioniCorrenti.MODIFICAOPERAZIONE;
-                Intent i = new Intent(getApplicationContext(), DettaglioOperazioni.class);
-                i.putExtra("ID","" + sit.getId());
-                i.putExtra("IDUNIVOCO", "" + sit.getIdUnivoco());
-                i.putExtra("OP",operazionecorrente);
-                i.putExtra("CODICECLIENTE", sit.getCodiceCliente());
-                i.putExtra("RAGSOCCLIENTE", sit.getRagSocialeCliente());
-                i.putExtra("LUOGO", luogo);
-
-                SimpleDateFormat datore = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-
-                i.putExtra("DATAINIZIO", datore.format(sit.getDataInizio()));
-                i.putExtra("DATAFINE", datore.format(sit.getDataFine()));
-                i.putExtra("NOTE", sit.getNotaTecnico());
-                i.putExtra("NONFATTURARE", "" + sit.getNonFatturare());
-                i.putExtra("NONTRASFERIRE", "" + sit.getNonTrasferire());
-                i.putExtra("CHIUDERE", "" + sit.getChiusa());
-                startActivityForResult(i, MODIFY_OPERATION_REQUEST);
-
-            }
-        });*/
     }
 
     private ListAdapter aggiornaLista(MySqlLiteHelper mysql) {
-        sottoit = (ArrayList) mysql.getAllSottoIntervento();
+        DateFormat date = new SimpleDateFormat("dd-MM-yyyy", Locale.ITALY);
+        Date yesterDate = new Date();
+        Date toDate = new Date(System.currentTimeMillis() + (1000 * 60 * 60 * 24));
+
+        sottoit = (ArrayList) mysql.getDailySottoIntervento(date.format(yesterDate), date.format(toDate));
 
         ArrayList<HashMap<String, Object>> data = new ArrayList<>();
 
@@ -106,15 +74,19 @@ public class ElencoTrasferimenti extends ActionBarActivity {
             HashMap<String, Object> objectmap = new HashMap<>();
             String datain;
             SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy", Locale.ITALY);
+            SimpleDateFormat sdfh = new SimpleDateFormat("HH:mm");
+            String orain = sdfh.format(s.getDataInizio());
+            String orafin = sdfh.format(s.getDataFine());
             datain = sdf.format(s.getDataInizio());
             objectmap.put("DATA", datain);
             objectmap.put("LUOGO", s.getLuogo().trim());
             objectmap.put("RAGSOC", s.getRagSocialeCliente().trim());
             objectmap.put("ID", s.getId());
+            objectmap.put("ORA", orain + "-" + orafin);
             data.add(objectmap);
         }
 
-        String[] from = {"DATA","LUOGO","RAGSOC","ID"};
+        String[] from = {"DATA","LUOGO","RAGSOC","ORA"};
         int[] to = {R.id.txtvwDataTras, R.id.txtvwLuogoTras , R.id.txtvwRagioneSocialeTras, R.id.txtvwIDTras};
 
         return new SimpleAdapter(

@@ -25,6 +25,7 @@ public class Intervento {
     private String motivoChiamata;
     private String noteAssegnatore;
     private int nonTrasferire;
+    private Integer tmrAmf;
     private int chiusa;
     private String idunivoco;
 
@@ -40,7 +41,7 @@ public class Intervento {
                       Date dataPrevistaIntervento, int idCliente, String codiceCliente,
                       String ragSocialeCliente, String indirizzoCliente, String localitaCliente,
                       String telefonoCliente, String faxCliente, String motivoChiamata,
-                      String noteAssegnatore, int nonTrasferire, int chiusa, String idunivoco) {
+                      String noteAssegnatore, int nonTrasferire, int chiusa, String idunivoco, Integer tmrAmf) {
         this._id = _id;
         this.id = id;
         this.hwsw = hwsw;
@@ -59,6 +60,7 @@ public class Intervento {
         this.nonTrasferire = nonTrasferire;
         this.chiusa = chiusa;
         this.idunivoco = idunivoco;
+        this.tmrAmf = tmrAmf;
     }
 
     public int get_id() {
@@ -199,5 +201,13 @@ public class Intervento {
 
     public void setIdunivoco(String idunivoco) {
         this.idunivoco = idunivoco;
+    }
+
+    public Integer getTmrAmf() {
+        return tmrAmf;
+    }
+
+    public void setTmrAmf(Integer tmrAmf) {
+        this.tmrAmf = tmrAmf;
     }
 }

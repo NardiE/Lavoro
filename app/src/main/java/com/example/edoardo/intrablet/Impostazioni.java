@@ -26,11 +26,13 @@ public class Impostazioni extends ActionBarActivity {
         EditText id = (EditText) findViewById(R.id.edttxtIDConf);
         EditText ip = (EditText) findViewById(R.id.edttxtIPConf);
         EditText porta = (EditText) findViewById(R.id.edttxtPortaConf);
+        EditText portafirme = (EditText) findViewById(R.id.edttxtPortaFirme);
         tipo.setText(sharedpreferences.getString(TipiConfigurazione.tipoInterventi, ""));
         nome.setText(sharedpreferences.getString(TipiConfigurazione.nomeTecnico, ""));
         id.setText(sharedpreferences.getString(TipiConfigurazione.idTecnico, ""));
         ip.setText(sharedpreferences.getString(TipiConfigurazione.ipServer,""));
         porta.setText(sharedpreferences.getString(TipiConfigurazione.portaServer,""));
+        portafirme.setText(sharedpreferences.getString(TipiConfigurazione.firmePorte,""));
     }
 
 
@@ -66,6 +68,7 @@ public class Impostazioni extends ActionBarActivity {
         editor.putString(TipiConfigurazione.nomeTecnico, ((EditText) findViewById(R.id.edttxtNomeConf)).getText().toString());
         editor.putString(TipiConfigurazione.ipServer, ((EditText) findViewById(R.id.edttxtIPConf)).getText().toString());
         editor.putString(TipiConfigurazione.portaServer, ((EditText) findViewById(R.id.edttxtPortaConf)).getText().toString());
+        editor.putString(TipiConfigurazione.firmePorte, ((EditText) findViewById(R.id.edttxtPortaFirme)).getText().toString());
         editor.apply();
         Intent i = new Intent(this, Home.class);
         startActivity(i);

@@ -88,7 +88,7 @@ import java.text.SimpleDateFormat;
  */
 public class DBUtility {
 
-    static final String TABELLE = "tabelle2.db";
+    static final String TABELLE = "intrasignorini1.db";
     static final int DATABASE_VERSION = 1;
     static final String pk = "primarykey";
 
@@ -151,6 +151,7 @@ public class DBUtility {
                     cv.put(TABINTERVENTI.NONTRASFERIRE.getSQLColonnaInfo().getSQLColumnName(),exc.getNonTrasferire());
                     cv.put(TABINTERVENTI.CHIUSA.getSQLColonnaInfo().getSQLColumnName(),exc.getChiusa());
                     cv.put(TABINTERVENTI.IDUNIVOCO.getSQLColonnaInfo().getSQLColumnName(),exc.getIdunivoco());
+                    cv.put(TABINTERVENTI.TMRAMF.getSQLColonnaInfo().getSQLColumnName(), exc.getTmrAmf());
                     return cv;
                 }
                 else if(clsObj.equals(SottoIt.class))
@@ -250,7 +251,8 @@ public class DBUtility {
         NOTEASSEGNATORE("NOTEASSEGNATORE", SQLTYPE.TEXT,false,14),
         NONTRASFERIRE("NONTRASFERIRE", SQLTYPE.SMALLINT,false,15),
         CHIUSA("CHIUSA", SQLTYPE.SMALLINT,false,16),
-        IDUNIVOCO("IDUNIVOCO", SQLTYPE.VARCHAR,16,false,17);
+        IDUNIVOCO("IDUNIVOCO", SQLTYPE.VARCHAR,16,false,17),
+        TMRAMF("TMRAMF", SQLTYPE.SMALLINT,false,18);
 
         private final SQLColonna colonna;
 

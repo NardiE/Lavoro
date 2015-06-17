@@ -11,7 +11,6 @@
             android:layout_weight="10"
             android:gravity="center"
             android:layout_height="wrap_content"
-            android:text="dd/MM/yy"
             android:textColor="#000000"
             android:id="@+id/txtvwDataTras"
             android:textAppearance="@android:style/TextAppearance.Large"/>
@@ -22,25 +21,22 @@
             android:layout_marginLeft="10dp"
             android:gravity="center"
             android:textColor="#000000"
-            android:text="TA"
             android:id="@+id/txtvwLuogoTras"
             android:textAppearance="@android:style/TextAppearance.Large"/>
         <TextView
             android:layout_width="0dp"
-            android:layout_weight="17"
+            android:layout_weight="16"
             android:layout_marginLeft="10dp"
             android:gravity="center"
             android:textColor="#000000"
             android:layout_height="wrap_content"
-            android:text="Cliente S.R.L."
             android:id="@+id/txtvwRagioneSocialeTras"
             android:textAppearance="@android:style/TextAppearance.Large"/>
         <TextView
             android:layout_width="0dp"
-            android:layout_weight="4"
+            android:layout_weight="8"
             android:gravity="center"
             android:layout_height="wrap_content"
-            android:text="1789"
             android:textColor="#000000"
             android:id="@+id/txtvwIDTras"
             android:textAppearance="@android:style/TextAppearance.Large"/>

@@ -61,6 +61,12 @@ public class DettaglioInterventi extends ActionBarActivity {
         Intent intent = getIntent();
         operazionecorrente = Integer.parseInt(intent.getStringExtra("OP"));
 
+        String HWSW = sharedpreferences.getString(TipiConfigurazione.tipoInterventi, "");
+        if(HWSW.equals("S")){
+
+            findViewById(R.id.chkbxTMRAMF).setVisibility(View.INVISIBLE);
+        }
+
 
         if(operazionecorrente == OperazioniCorrenti.CHIAMATEAPERTE || operazionecorrente == OperazioniCorrenti.CHIAMATECHIUSE || operazionecorrente == OperazioniCorrenti.MODIFICAINTERVENTO){
 
@@ -90,6 +96,9 @@ public class DettaglioInterventi extends ActionBarActivity {
             ((TextView) findViewById(R.id.txtvwRagioneSociale)).setText("" + it.getRagSocialeCliente());
             ((CheckBox) findViewById(R.id.chkbxTrasferisci)).setChecked((it.getChiusa() == 2));
             ((CheckBox) findViewById(R.id.chkbxNoTMR)).setChecked((it.getNonTrasferire() == 1));
+            if(it.getTmrAmf()!= null){
+                ((CheckBox) findViewById(R.id.chkbxTMRAMF)).setChecked((it.getTmrAmf() == 1));
+            }
 
             if(operazionecorrente == OperazioniCorrenti.CHIAMATECHIUSE){
                 // disabilito bottone cambio cliente, inserimento articolo inserimento operazionetra e cambio il testo di conferma
@@ -119,7 +128,6 @@ public class DettaglioInterventi extends ActionBarActivity {
             else ID = minID -1;
 
             String idUnivoco = Utility.idUnivoco(idTecnico);
-            String HWSW = sharedpreferences.getString(TipiConfigurazione.tipoInterventi, "");
             String numero = "0";
             Date data = new Date();
             Date dataprevista = new Date();
@@ -135,8 +143,9 @@ public class DettaglioInterventi extends ActionBarActivity {
             String fax = "";
             String motivochiamata = "";
             String noteassegnatore = "";
+            Integer tmrAmf = null;
 
-            Intervento it = new Intervento(ID,ID,HWSW,numero,data,dataprevista,idCliente,codiceCliente,ragioneSocialeCliente,indirizzo,localita,telefono,fax,motivochiamata,noteassegnatore,nontrasferire,chiusa,idUnivoco);
+            Intervento it = new Intervento(ID,ID,HWSW,numero,data,dataprevista,idCliente,codiceCliente,ragioneSocialeCliente,indirizzo,localita,telefono,fax,motivochiamata,noteassegnatore,nontrasferire,chiusa,idUnivoco, tmrAmf);
 
             mysql.addIntervento(it);
 
@@ -229,6 +238,13 @@ public class DettaglioInterventi extends ActionBarActivity {
         MySqlLiteHelper mysql = new MySqlLiteHelper(this);
         Intervento it = mysql.getIntervento(ID).get(0);
         if( it != null) {
+            if(it.getHwsw() == "S"){
+                it.setTmrAmf(null);
+            }
+            else if(((CheckBox) findViewById(R.id.chkbxTMRAMF)).isChecked()){
+                it.setTmrAmf(1);
+            }
+            else it.setTmrAmf(0);
             //inserisco le informazioni per chiusa NoTMR e Trasferisci
             if(((CheckBox) findViewById(R.id.chkbxTrasferisci)).isChecked()){
                 it.setChiusa(2);

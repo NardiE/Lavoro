@@ -162,7 +162,7 @@ public class MySqlLiteHelper extends SQLiteOpenHelper {
     public ArrayList<Intervento> getChiamateChiuse(){
         ArrayList<Intervento> chiamatechiuse = new ArrayList<>();
 
-        String selectQuery = "SELECT  * FROM " + DBUtility.BIJECTIONTABNAME.INTERVENTI.getNomeTabella() + " WHERE CHIUSA = " + 1;
+        String selectQuery = "SELECT  * FROM " + DBUtility.BIJECTIONTABNAME.INTERVENTI.getNomeTabella() + " WHERE CHIUSA = " + 1 + " ORDER BY " + DBUtility.TABINTERVENTI.ID.getSQLColonnaInfo().getSQLColumnName() + " ASC";
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor;
@@ -179,7 +179,7 @@ public class MySqlLiteHelper extends SQLiteOpenHelper {
                 } catch (Exception e) {
                     throw new NullPointerException();
                 }
-                it = new Intervento(cursor.getInt(0), cursor.getInt(1), cursor.getString(2), cursor.getString(3), data, dataprevista, cursor.getInt(6), cursor.getString(7), cursor.getString(8), cursor.getString(9), cursor.getString(10), cursor.getString(11), cursor.getString(12), cursor.getString(13), cursor.getString(14), cursor.getInt(15), cursor.getInt(16), cursor.getString(17));
+                it = new Intervento(cursor.getInt(0), cursor.getInt(1), cursor.getString(2), cursor.getString(3), data, dataprevista, cursor.getInt(6), cursor.getString(7), cursor.getString(8), cursor.getString(9), cursor.getString(10), cursor.getString(11), cursor.getString(12), cursor.getString(13), cursor.getString(14), cursor.getInt(15), cursor.getInt(16), cursor.getString(17), cursor.getInt(18));
                 chiamatechiuse.add(it);
             }while (cursor.moveToNext());
         }
@@ -190,7 +190,7 @@ public class MySqlLiteHelper extends SQLiteOpenHelper {
     public ArrayList<Intervento> getChiamateAperte(){
         ArrayList<Intervento> chiamateaperte = new ArrayList<>();
 
-        String selectQuery = "SELECT  * FROM " + DBUtility.BIJECTIONTABNAME.INTERVENTI.getNomeTabella() + " WHERE CHIUSA = " + 0;
+        String selectQuery = "SELECT  * FROM " + DBUtility.BIJECTIONTABNAME.INTERVENTI.getNomeTabella() + " WHERE CHIUSA = " + 0 + " ORDER BY " + DBUtility.TABINTERVENTI.ID.getSQLColonnaInfo().getSQLColumnName() + " ASC";
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor;
@@ -207,7 +207,7 @@ public class MySqlLiteHelper extends SQLiteOpenHelper {
                 } catch (Exception e) {
                     throw new NullPointerException();
                 }
-                it = new Intervento(cursor.getInt(0), cursor.getInt(1), cursor.getString(2), cursor.getString(3), data, dataprevista, cursor.getInt(6), cursor.getString(7), cursor.getString(8), cursor.getString(9), cursor.getString(10), cursor.getString(11), cursor.getString(12), cursor.getString(13), cursor.getString(14), cursor.getInt(15), cursor.getInt(16), cursor.getString(17));
+                it = new Intervento(cursor.getInt(0), cursor.getInt(1), cursor.getString(2), cursor.getString(3), data, dataprevista, cursor.getInt(6), cursor.getString(7), cursor.getString(8), cursor.getString(9), cursor.getString(10), cursor.getString(11), cursor.getString(12), cursor.getString(13), cursor.getString(14), cursor.getInt(15), cursor.getInt(16), cursor.getString(17), cursor.getInt(18));
                 chiamateaperte.add(it);
             } while (cursor.moveToNext());
         }
@@ -275,7 +275,7 @@ public class MySqlLiteHelper extends SQLiteOpenHelper {
             } catch (Exception e) {
                 return null;
             }
-            it = new Intervento(cursor.getInt(0), cursor.getInt(1), cursor.getString(2), cursor.getString(3), data, dataprevista, cursor.getInt(6), cursor.getString(7), cursor.getString(8), cursor.getString(9), cursor.getString(10), cursor.getString(11), cursor.getString(12), cursor.getString(13), cursor.getString(14), cursor.getInt(15), cursor.getInt(16), cursor.getString(17));
+            it = new Intervento(cursor.getInt(0), cursor.getInt(1), cursor.getString(2), cursor.getString(3), data, dataprevista, cursor.getInt(6), cursor.getString(7), cursor.getString(8), cursor.getString(9), cursor.getString(10), cursor.getString(11), cursor.getString(12), cursor.getString(13), cursor.getString(14), cursor.getInt(15), cursor.getInt(16), cursor.getString(17), cursor.getInt(18));
             interventi.add(it);
         }
         cursor.close();
@@ -406,19 +406,20 @@ public class MySqlLiteHelper extends SQLiteOpenHelper {
                     return null;
                 }
 
-                it = new Intervento(cursor.getInt(0), cursor.getInt(1), cursor.getString(2), cursor.getString(3), data, dataprevista, cursor.getInt(6), cursor.getString(7), cursor.getString(8), cursor.getString(9), cursor.getString(10), cursor.getString(11), cursor.getString(12), cursor.getString(13), cursor.getString(14), cursor.getInt(15), cursor.getInt(16), cursor.getString(17));
+                it = new Intervento(cursor.getInt(0), cursor.getInt(1), cursor.getString(2), cursor.getString(3), data, dataprevista, cursor.getInt(6), cursor.getString(7), cursor.getString(8), cursor.getString(9), cursor.getString(10), cursor.getString(11), cursor.getString(12), cursor.getString(13), cursor.getString(14), cursor.getInt(15), cursor.getInt(16), cursor.getString(17), cursor.getInt(18));
 
                 // Adding intervent to list
                 interventi.add(it);
             } while (cursor.moveToNext());
         }
+        cursor.close();
         return interventi;
     }
 
     public List<SottoIt> getAllSottoIntervento(){
         ArrayList<SottoIt> sint = new ArrayList<>();
 
-        String selectQuery = "SELECT  * FROM " + DBUtility.BIJECTIONTABNAME.SOTTOIT.getNomeTabella();
+        String selectQuery = "SELECT  * FROM " + DBUtility.BIJECTIONTABNAME.SOTTOIT.getNomeTabella() + " ORDER BY " + DBUtility.TABSOTTOIT.ID.getSQLColonnaInfo().getSQLColumnName() + " ASC";
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
         SimpleDateFormat sdf= new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
@@ -439,6 +440,36 @@ public class MySqlLiteHelper extends SQLiteOpenHelper {
                 sint.add(st);
             } while (cursor.moveToNext());
         }
+        cursor.close();
+        return sint;
+
+    }
+
+    public List<SottoIt> getDailySottoIntervento(String yesterDay, String toDay){
+        ArrayList<SottoIt> sint = new ArrayList<>();
+
+        String selectQuery = "SELECT  * FROM " + DBUtility.BIJECTIONTABNAME.SOTTOIT.getNomeTabella() + " WHERE " + DBUtility.TABSOTTOIT.DATAINIZIO.getSQLColonnaInfo().getSQLColumnName() + " BETWEEN '" + yesterDay + "' AND '" + toDay  + "' ORDER BY " + DBUtility.TABSOTTOIT.DATAINIZIO.getSQLColonnaInfo().getSQLColumnName() + " ASC";
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        SimpleDateFormat sdf= new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        if (cursor.moveToFirst()) {
+            SottoIt st;
+            do {
+                Date datain;
+                Date datafin;
+                try{
+                    datain = sdf.parse(cursor.getString(7));
+                    datafin = sdf.parse(cursor.getString(8));
+                }catch(Exception e){
+                    return null;
+                }
+                st = new SottoIt(cursor.getInt(0),cursor.getInt(1),cursor.getString(2),cursor.getInt(3),cursor.getInt(4),cursor.getString(5),cursor.getString(6),datain, datafin,cursor.getString(9),cursor.getString(10),cursor.getInt(11),cursor.getInt(12),cursor.getInt(13),cursor.getInt(14),cursor.getString(15),cursor.getString(16));
+
+                // Adding contact to list
+                sint.add(st);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
         return sint;
 
     }
@@ -458,6 +489,7 @@ public class MySqlLiteHelper extends SQLiteOpenHelper {
                 tipi.add(tipo);
             } while (cursor.moveToNext());
         }
+        cursor.close();
         return tipi;
     }
         /*END GETALL*/

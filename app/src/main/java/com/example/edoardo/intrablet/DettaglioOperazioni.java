@@ -287,10 +287,10 @@ public class DettaglioOperazioni extends ActionBarActivity {
             int idIt = 0;
             String idUnivoco = Utility.idUnivoco(idTecnico);
             // creo le operazioni per i trasferimenti
-            String andataDa = ((EditText)findViewById(R.id.edttxtAndataDa)).getText().toString();
-            String andataA = ((EditText)findViewById(R.id.edttxtAndataA)).getText().toString();
-            String ritornoDa = ((EditText)findViewById(R.id.edttxtRitornoDa)).getText().toString();
-            String ritornoA = ((EditText)findViewById(R.id.edttxtRitornoA)).getText().toString();
+            String andataDa = aggiustaData(((EditText)findViewById(R.id.edttxtAndataDa)).getText().toString());
+            String andataA = aggiustaData(((EditText)findViewById(R.id.edttxtAndataA)).getText().toString());
+            String ritornoDa = aggiustaData(((EditText)findViewById(R.id.edttxtRitornoDa)).getText().toString());
+            String ritornoA = aggiustaData(((EditText)findViewById(R.id.edttxtRitornoA)).getText().toString());
             if(!andataA.equals("") && !andataDa.equals("")){
                 String myluogo;
                 SimpleDateFormat sdfandata = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.ITALY);
