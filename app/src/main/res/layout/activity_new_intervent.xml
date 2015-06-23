@@ -149,14 +149,15 @@
     </LinearLayout>
     <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:orientation="horizontal"
+        android:layout_weight="4"
         android:layout_marginTop="0dp">
         <EditText
             android:layout_width="fill_parent"
             android:backgroundTint="#ffe5e5e5"
             android:background="#ffdedede"
-            android:layout_height="80dp"
+            android:layout_height="fill_parent"
             android:gravity="top|left"
             android:id="@+id/edttxtMotivoInt"/>
 
@@ -171,7 +172,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"             android:textColor="#000000"
+            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
+            android:textColor="#000000"
             android:text="Articoli: "/>
 
     </LinearLayout>
@@ -251,6 +253,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
+        android:textColor="#000000"
         android:text="Operazioni: "/>
 
     </LinearLayout>

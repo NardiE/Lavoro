@@ -24,10 +24,10 @@ import java.util.Date;
 public class FirmaView extends View {
     public static int rwt = 209;
     public static int rht = 259;
-    public static int wt = 456;
-    public static int ht = 563;
-    public static int firmax = 228;
-    public static int firmay = 50;
+    public static int wt = 1280;
+    public static int ht = 1600;
+    public static int firmax = 600;
+    public static int firmay = 100;
     private Path drawPath;
     private Paint drawPaint, canvasPaint;
     private Canvas drawCanvas;
@@ -64,7 +64,7 @@ public class FirmaView extends View {
 
         Paint paint = new Paint();
         paint.setColor(Color.RED);
-        paint.setTextSize(50);
+        paint.setTextSize(100);
         paint.setTextAlign(Paint.Align.CENTER);
         drawCanvas.drawText(sdf.format(new Date()),firmax,firmay,paint);
     }
