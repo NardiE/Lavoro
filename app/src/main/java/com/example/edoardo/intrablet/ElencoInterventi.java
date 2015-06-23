@@ -192,4 +192,9 @@ public class ElencoInterventi extends ActionBarActivity {
 
         }*/
     }
+
+    @Override
+    public void onBackPressed() {
+        // do nothing.
+    }
 }

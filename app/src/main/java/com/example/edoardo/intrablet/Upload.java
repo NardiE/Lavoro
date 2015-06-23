@@ -649,6 +649,9 @@ public class Upload extends ActionBarActivity {
         }
     }
 
-
+    @Override
+    public void onBackPressed() {
+        // do nothing.
+    }
 
 }

@@ -116,7 +116,10 @@ public class DettaglioOperazioni extends ActionBarActivity {
             else
                 ((TextView) findViewById(R.id.txtvwNomeClienteao)).setText(operazione.getRagSocialeCliente());
 
-            myspinner.setSelection(((ArrayAdapter) myspinner.getAdapter()).getPosition(operazione.getLuogo()));
+            //prendo la posizione del luogo dell'operazione per settare lo spinner
+            int pos = getLuogoPosition(tipi, operazione.getLuogo());
+
+            myspinner.setSelection(pos);
 
             SimpleDateFormat data = new SimpleDateFormat("dd-MM-yyyy", Locale.ITALY);
             SimpleDateFormat ore = new SimpleDateFormat("HH:mm", Locale.ITALY);
@@ -315,7 +318,7 @@ public class DettaglioOperazioni extends ActionBarActivity {
                 int mynontrasferire = 0;
                 int mychiudere = 0;
                 SottoIt nuovoandata;
-                if(operazionecorrente == OperazioniCorrenti.INSERIMENTOOPERAZIONEINTERVENTO || operazionecorrente == OperazioniCorrenti.MODIFICAINTERVENTO){
+                if(operazionecorrente == OperazioniCorrenti.INSERIMENTOOPERAZIONEINTERVENTO || operazionecorrente == OperazioniCorrenti.MODIFICAOPERAZIONEINTERVENTO){
                     nuovoandata = new SottoIt(nuovoID,nuovoID,HWSW,IDIt,idTecnico,nomeTecnico,nomeCliente,andatada,andataa,myluogo,mynoteTecnico,nonfatturare,mynontrasferire,mychiudere,null,"");
                 }else
                     nuovoandata = new SottoIt(nuovoID,nuovoID,HWSW,myidIt,idTecnico,nomeTecnico,nomeCliente,andatada,andataa,myluogo,mynoteTecnico,nonfatturare,mynontrasferire,mychiudere,null,"");
@@ -346,7 +349,7 @@ public class DettaglioOperazioni extends ActionBarActivity {
                 int mynontrasferire = 0;
                 int mychiudere = 0;
                 SottoIt nuovoritorno;
-                if(operazionecorrente == OperazioniCorrenti.INSERIMENTOOPERAZIONEINTERVENTO || operazionecorrente == OperazioniCorrenti.MODIFICAINTERVENTO){
+                if(operazionecorrente == OperazioniCorrenti.INSERIMENTOOPERAZIONEINTERVENTO || operazionecorrente == OperazioniCorrenti.MODIFICAOPERAZIONEINTERVENTO){
                     nuovoritorno = new SottoIt(nuovoID,nuovoID,HWSW,IDIt,idTecnico,nomeTecnico,nomeCliente,ritornoda,ritornoa,myluogo,mynoteTecnico,nonfatturare,mynontrasferire,mychiudere,null,"");
                 }else
                     nuovoritorno = new SottoIt(nuovoID,nuovoID,HWSW,myidIt,idTecnico,nomeTecnico,nomeCliente,ritornoda,ritornoa,myluogo,mynoteTecnico,nonfatturare,mynontrasferire,mychiudere,null,"");
@@ -443,5 +446,19 @@ public class DettaglioOperazioni extends ActionBarActivity {
             data = data.substring(0,2) +":" + data.substring(2,4);
         }
         return data;
+    }
+
+    public int getLuogoPosition(ArrayList<TipiIntervento> tipi, String tipo){
+        for(TipiIntervento t : tipi) {
+            if (t.getCodice().equals(tipo)){
+                return tipi.indexOf(t);
+            }
+        }
+        return 0;
+    }
+
+    @Override
+    public void onBackPressed() {
+        // do nothing.
     }
 }

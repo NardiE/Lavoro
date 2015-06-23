@@ -139,4 +139,9 @@ public class FirmaActivity extends ActionBarActivity {
         Bitmap bmp = Bitmap.createBitmap(src, 0, 0, src.getWidth(), src.getHeight(), matrix, true);
         return bmp;
     }
+
+    @Override
+    public void onBackPressed() {
+        // do nothing.
+    }
 }

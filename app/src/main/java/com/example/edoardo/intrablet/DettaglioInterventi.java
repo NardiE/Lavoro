@@ -577,4 +577,9 @@ public class DettaglioInterventi extends ActionBarActivity {
         i.putExtra("HWSW", "" + HWSW);
         startActivity(i);
     }
+
+    @Override
+    public void onBackPressed() {
+        // do nothing.
+    }
 }

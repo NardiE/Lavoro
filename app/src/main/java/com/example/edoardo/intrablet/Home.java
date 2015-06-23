@@ -112,4 +112,9 @@ public class Home extends ActionBarActivity {
         Intent intent = new Intent(this, Lavoro.class);
         startActivity(intent);
     }
+
+    @Override
+    public void onBackPressed() {
+        // do nothing.
+    }
 }

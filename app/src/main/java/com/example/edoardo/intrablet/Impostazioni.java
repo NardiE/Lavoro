@@ -73,4 +73,9 @@ public class Impostazioni extends ActionBarActivity {
         Intent i = new Intent(this, Home.class);
         startActivity(i);
     }
+
+    @Override
+    public void onBackPressed() {
+        // do nothing.
+    }
 }

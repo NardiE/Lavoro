@@ -230,4 +230,9 @@ public class ElencoTrasferimenti extends ActionBarActivity {
 
     return true;
     }
+
+    @Override
+    public void onBackPressed() {
+        // do nothing.
+    }
 }

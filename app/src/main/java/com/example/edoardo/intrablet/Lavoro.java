@@ -68,4 +68,9 @@ public class Lavoro extends ActionBarActivity {
         i.putExtra("OP", "" + OperazioniCorrenti.CHIAMATEAPERTE);
         startActivity(i);
     }
+
+    @Override
+    public void onBackPressed() {
+        // do nothing.
+    }
 }
