@@ -40,7 +40,7 @@ public class DettaglioInterventi extends ActionBarActivity {
     private int operazioneprecedente = OperazioniCorrenti.NOOP;
     private int ID;
     private int continuareID;
-    private int chiusa;
+    private int chiusa = -1;
     ArrayList<Articolo> articoli;
     ArrayList<SottoIt> operazioni;
 
@@ -134,7 +134,7 @@ public class DettaglioInterventi extends ActionBarActivity {
 
             int idCliente = 0;
             int nontrasferire = 0;
-            int chiusa = 0;
+            int tempchiusa = 0;
             String codiceCliente = "";
             String ragioneSocialeCliente = "";
             String telefono = "";
@@ -145,7 +145,7 @@ public class DettaglioInterventi extends ActionBarActivity {
             String noteassegnatore = "";
             Integer tmrAmf = null;
 
-            Intervento it = new Intervento(ID,ID,HWSW,numero,data,dataprevista,idCliente,codiceCliente,ragioneSocialeCliente,indirizzo,localita,telefono,fax,motivochiamata,noteassegnatore,nontrasferire,chiusa,idUnivoco, tmrAmf);
+            Intervento it = new Intervento(ID,ID,HWSW,numero,data,dataprevista,idCliente,codiceCliente,ragioneSocialeCliente,indirizzo,localita,telefono,fax,motivochiamata,noteassegnatore,nontrasferire,tempchiusa,idUnivoco, tmrAmf);
 
             mysql.addIntervento(it);
 
@@ -249,7 +249,8 @@ public class DettaglioInterventi extends ActionBarActivity {
             if(((CheckBox) findViewById(R.id.chkbxTrasferisci)).isChecked()){
                 it.setChiusa(2);
             }else{
-                it.setChiusa(chiusa);
+                if(chiusa != -1)
+                    it.setChiusa(chiusa);
             }
 
             it.setNonTrasferire(0);
