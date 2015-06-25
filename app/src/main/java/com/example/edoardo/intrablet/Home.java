@@ -89,7 +89,7 @@ public class Home extends ActionBarActivity {
             return true;
         }
         if (id == R.id.info){
-            AlertDialog.Builder myb = Utility.creaDialogoVeloce(this, "Versione 1.2 \n\n Sviluppato per Signorini Software Service da Edoardo Nardi \n\n Per informazioni contattare: edoardo@signorini.it", "Informazioni");
+            AlertDialog.Builder myb = Utility.creaDialogoVeloce(this, "Versione 2.0 \n\n +Risolti bug riapertura chiamate chiuse e trasferimenti collegati ad interventi \n\n +Aggiunta possibilità scaricamento via Internet degli interventi \n\n Sviluppato per Signorini Software Service da Edoardo Nardi \n\n Per informazioni contattare: edoardo@signorini.it", "Informazioni");
             myb.create().show();
         }
 
